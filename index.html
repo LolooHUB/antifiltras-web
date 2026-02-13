@@ -5,52 +5,66 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Anti-Filtras Community | Status</title>
     <link rel="stylesheet" href="style.css">
-    <script src="https://kit.fontawesome.com/your-code.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <div class="news-ticker">
         <div class="ticker-wrapper">
-            <div class="ticker-item">🚨 Nueva actualización de seguridad desplegada en la red global.</div>
-            <div class="ticker-item">✅ Base de datos Firestore sincronizada con éxito.</div>
-            <div class="ticker-item">🛡️ Únete a nuestra comunidad para reportar filtradores.</div>
+            <div class="ticker-item">🚨 MONITOREO GLOBAL: Filtros de seguridad activos en toda la red.</div>
+            <div class="ticker-item">✅ ESTADO DEL SERVICIO: Operando con normalidad.</div>
+            <div class="ticker-item">🛡️ ANTI-FILTRAS: Protegiendo comunidades en tiempo real.</div>
         </div>
     </div>
 
     <header>
-        <img src="logo.webp" alt="Anti-Filtras Logo" class="logo">
+        <img src="logo.webp" alt="Logo Anti-Filtras" class="logo">
         <h1>SISTEMA DE MONITOREO GLOBAL</h1>
     </header>
 
     <main>
-        <section class="status-container">
-            <h2>Estado de la Red</h2>
-            <div class="status-grid">
-                <div class="status-card" id="status-tickets">
-                    <div class="card-icon">📩</div>
-                    <div class="card-info">
-                        <h3>Tickets de Reporte</h3>
-                        <p class="status-text">Cargando...</p>
-                    </div>
-                    <div class="indicator"></div>
+        <section class="service-status-section">
+            <h2 class="section-title">ESTADO DEL SERVICIO</h2>
+            <div class="service-grid">
+                <div class="service-item" id="status-tickets">
+                    <div class="circle-icon green-bg">T</div>
+                    <span class="service-label">Tickets</span>
+                    <p class="service-desc">Normal</p>
                 </div>
+                <div class="service-item" id="status-bans">
+                    <div class="circle-icon green-bg">B</div>
+                    <span class="service-label">Baneos</span>
+                    <p class="service-desc">Normal</p>
+                </div>
+                <div class="service-item" id="status-config">
+                    <div class="circle-icon green-bg">C</div>
+                    <span class="service-label">Config</span>
+                    <p class="service-desc">Normal</p>
+                </div>
+            </div>
+        </section>
 
-                <div class="status-card" id="status-bans">
-                    <div class="card-icon">🚫</div>
-                    <div class="card-info">
-                        <h3>Baneos Globales</h3>
-                        <p class="status-text">Cargando...</p>
-                    </div>
-                    <div class="indicator"></div>
-                </div>
-
-                <div class="status-card" id="status-config">
-                    <div class="card-icon">⚙️</div>
-                    <div class="card-info">
-                        <h3>Gestión de Servidores</h3>
-                        <p class="status-text">Cargando...</p>
-                    </div>
-                    <div class="indicator"></div>
-                </div>
+        <section class="nav-section">
+            <h2 class="section-title">GESTIÓN Y RECURSOS</h2>
+            <div class="nav-grid">
+                <a href="#" class="nav-card">
+                    <div class="nav-icon">🚫</div>
+                    <h3>BANEADOS</h3>
+                    <p>Lista global de filtradores</p>
+                </a>
+                <a href="#" class="nav-card">
+                    <div class="nav-icon">➕</div>
+                    <h3>INVITAR BOT</h3>
+                    <p>Añade protección a tu server</p>
+                </a>
+                <a href="#" class="nav-card">
+                    <div class="nav-icon">💬</div>
+                    <h3>DISCORD</h3>
+                    <p>Comunidad oficial de soporte</p>
+                </a>
+                <a href="#" class="nav-card">
+                    <div class="nav-icon">📜</div>
+                    <h3>NORMAS</h3>
+                    <p>Seguridad y convivencia</p>
+                </a>
             </div>
         </section>
     </main>
@@ -59,25 +73,38 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getFirestore, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-        const firebaseConfig = { /* PEGA TUS CONFIGS AQUÍ */ };
+        const firebaseConfig = {
+            apiKey: "AIzaSyAEUOzOWdq0xs3qiIlX1RzB6bpKkkMLykA",
+            authDomain: "antifiltras-7116d.firebaseapp.com",
+            projectId: "antifiltras-7116d",
+            appId: "1:795745598666:web:72b77816d3c2a3c17f8833"
+        };
+
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // Actualizar UI en tiempo real
-        onSnapshot(doc(db, "BOT_CONTROL", "settings"), (doc) => {
-            const data = doc.data();
-            updateCard('status-tickets', data.ticketsEnabled);
-            updateCard('status-bans', data.bansEnabled);
-            updateCard('status-config', data.configEnabled);
+        onSnapshot(doc(db, "BOT_CONTROL", "settings"), (docSnap) => {
+            const data = docSnap.exists() ? docSnap.data() : { ticketsEnabled: true, bansEnabled: true, configEnabled: true };
+            
+            updateStatus('status-tickets', data.ticketsEnabled);
+            updateStatus('status-bans', data.bansEnabled);
+            updateStatus('status-config', data.configEnabled);
         });
 
-        function updateCard(id, enabled) {
-            const card = document.getElementById(id);
-            const text = card.querySelector('.status-text');
-            const indicator = card.querySelector('.indicator');
+        function updateStatus(id, enabled) {
+            const el = document.getElementById(id);
+            const circle = el.querySelector('.circle-icon');
+            const desc = el.querySelector('.service-desc');
             
-            text.innerText = enabled ? 'FUNCIONANDO NORMALMENTE' : 'SERVICIO INTERRUMPIDO';
-            card.className = `status-card ${enabled ? 'online' : 'offline'}`;
+            if (enabled) {
+                circle.className = 'circle-icon green-bg';
+                desc.innerText = 'Normal';
+                desc.style.color = '#00ff88';
+            } else {
+                circle.className = 'circle-icon red-bg';
+                desc.innerText = 'Cerrado';
+                desc.style.color = '#ff3e3e';
+            }
         }
     </script>
 </body>
