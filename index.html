@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anti-Filtras Community | Status</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/your-code.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="news-ticker">
+        <div class="ticker-wrapper">
+            <div class="ticker-item">🚨 Nueva actualización de seguridad desplegada en la red global.</div>
+            <div class="ticker-item">✅ Base de datos Firestore sincronizada con éxito.</div>
+            <div class="ticker-item">🛡️ Únete a nuestra comunidad para reportar filtradores.</div>
+        </div>
+    </div>
+
+    <header>
+        <img src="logo.webp" alt="Anti-Filtras Logo" class="logo">
+        <h1>SISTEMA DE MONITOREO GLOBAL</h1>
+    </header>
+
+    <main>
+        <section class="status-container">
+            <h2>Estado de la Red</h2>
+            <div class="status-grid">
+                <div class="status-card" id="status-tickets">
+                    <div class="card-icon">📩</div>
+                    <div class="card-info">
+                        <h3>Tickets de Reporte</h3>
+                        <p class="status-text">Cargando...</p>
+                    </div>
+                    <div class="indicator"></div>
+                </div>
+
+                <div class="status-card" id="status-bans">
+                    <div class="card-icon">🚫</div>
+                    <div class="card-info">
+                        <h3>Baneos Globales</h3>
+                        <p class="status-text">Cargando...</p>
+                    </div>
+                    <div class="indicator"></div>
+                </div>
+
+                <div class="status-card" id="status-config">
+                    <div class="card-icon">⚙️</div>
+                    <div class="card-info">
+                        <h3>Gestión de Servidores</h3>
+                        <p class="status-text">Cargando...</p>
+                    </div>
+                    <div class="indicator"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        const firebaseConfig = { /* PEGA TUS CONFIGS AQUÍ */ };
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Actualizar UI en tiempo real
+        onSnapshot(doc(db, "BOT_CONTROL", "settings"), (doc) => {
+            const data = doc.data();
+            updateCard('status-tickets', data.ticketsEnabled);
+            updateCard('status-bans', data.bansEnabled);
+            updateCard('status-config', data.configEnabled);
+        });
+
+        function updateCard(id, enabled) {
+            const card = document.getElementById(id);
+            const text = card.querySelector('.status-text');
+            const indicator = card.querySelector('.indicator');
+            
+            text.innerText = enabled ? 'FUNCIONANDO NORMALMENTE' : 'SERVICIO INTERRUMPIDO';
+            card.className = `status-card ${enabled ? 'online' : 'offline'}`;
+        }
+    </script>
+</body>
+</html>
