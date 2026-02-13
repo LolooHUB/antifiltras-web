@@ -1,145 +1,80 @@
-:root {
-    --bg: #050505;
-    --card: #111;
-    --green: #00ff88;
-    --red: #ff3e3e;
-    --text: #ffffff;
-    --gray: #888;
-    --accent: #222;
-}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>⚙️ Admin Panel | Anti-Filtras</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <div id="login" style="text-align:center; padding-top: 150px;">
+        <img src="../logo.webp" width="120" style="margin-bottom:20px;">
+        <h2 style="letter-spacing:2px;">🔐 ACCESO STAFF</h2>
+        <input type="password" id="pass" placeholder="Contraseña Maestra" style="padding:15px; width:250px; border-radius:8px; border:1px solid #333; background:#111; color:white;">
+        <br><br>
+        <button onclick="checkPass()" class="btn-main">ENTRAR 🚀</button>
+    </div>
 
-body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    margin: 0;
-    scroll-behavior: smooth;
-    overflow-x: hidden;
-}
+    <div id="panel" style="display:none;" class="container">
+        <div class="admin-card">
+            <h2 style="text-align:center; color:var(--green);"><i class="fas fa-terminal"></i> PANEL DE CONTROL</h2>
+            <p style="text-align:center; opacity:0.6;">Gestiona las funciones del bot en tiempo real</p>
+            <hr style="border:0; border-top:1px solid #333; margin:20px 0;">
+            
+            <div id="btn-container">
+                </div>
+            
+            <p style="text-align:center; margin-top:30px;">
+                <a href="../index.html" style="color:var(--gray); text-decoration:none; font-size:0.8rem;">⬅️ Volver a la Web Pública</a>
+            </p>
+        </div>
+    </div>
 
-/* --- CABECERA --- */
-.main-header {
-    background: rgba(0, 0, 0, 0.9);
-    border-bottom: 2px solid var(--accent);
-    padding: 15px 0;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    backdrop-filter: blur(10px);
-}
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, doc, updateDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-.header-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 20px;
-}
+        const firebaseConfig = {
+            apiKey: "AIzaSyAEUOzOWdq0xs3qiIlX1RzB6bpKkkMLykA",
+            authDomain: "antifiltras-7116d.firebaseapp.com",
+            projectId: "antifiltras-7116d",
+            appId: "1:795745598666:web:72b77816d3c2a3c17f8833"
+        };
 
-.brand { display: flex; align-items: center; gap: 12px; }
-.nav-logo { width: 40px; border-radius: 50%; border: 1px solid var(--green); }
-.brand-name { font-weight: bold; letter-spacing: 2px; font-size: 1rem; color: var(--green); }
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
 
-.main-nav ul { list-style: none; display: flex; gap: 25px; margin: 0; padding: 0; }
-.main-nav a { 
-    text-decoration: none; 
-    color: var(--gray); 
-    font-size: 0.85rem; 
-    font-weight: bold; 
-    transition: 0.3s;
-}
-.main-nav a:hover, .main-nav a.active { color: var(--green); }
+        window.checkPass = () => {
+            if(document.getElementById('pass').value === 'Antifiltras2026') {
+                document.getElementById('login').style.display = 'none';
+                document.getElementById('panel').style.display = 'block';
+            } else { alert('❌ Acceso Denegado'); }
+        };
 
-/* --- BOLETÍN DE NOTICIAS --- */
-.news-ticker { background: #111; padding: 12px 0; border-bottom: 1px solid var(--accent); overflow: hidden; }
-.ticker-wrapper { display: flex; animation: ticker 25s linear infinite; }
-.ticker-item { padding: 0 50px; font-weight: bold; color: var(--green); white-space: nowrap; font-size: 0.85rem; }
+        onSnapshot(doc(db, "BOT_CONTROL", "settings"), (s) => {
+            if(!s.exists()) return;
+            const d = s.data();
+            const c = document.getElementById('btn-container');
+            c.innerHTML = `
+                ${renderBtn('📩 Sistema de Tickets', 'ticketsEnabled', d.ticketsEnabled)}
+                ${renderBtn('🚫 Baneos Globales', 'bansEnabled', d.bansEnabled)}
+                ${renderBtn('⚙️ Config. Servidores', 'configEnabled', d.configEnabled)}
+            `;
+        });
 
-@keyframes ticker { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+        window.toggleFunc = async (f, v) => {
+            await updateDoc(doc(db, "BOT_CONTROL", "settings"), { [f]: !v });
+        };
 
-/* --- HERO --- */
-.hero {
-    padding: 120px 20px;
-    text-align: center;
-    background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), url('logo.webp');
-    background-size: 400px;
-    background-position: center;
-    background-repeat: no-repeat;
-}
-
-.hero h2 { font-size: 2.8rem; margin-bottom: 15px; letter-spacing: 3px; text-shadow: 0 0 20px var(--green); }
-.hero p { color: var(--gray); margin-bottom: 35px; font-size: 1.1rem; }
-.btn-main { 
-    background: var(--green); 
-    color: black; 
-    padding: 14px 35px; 
-    text-decoration: none; 
-    font-weight: bold; 
-    border-radius: 8px; 
-    transition: 0.3s;
-}
-.btn-main:hover { transform: scale(1.05); box-shadow: 0 0 20px var(--green); }
-
-/* --- ESTADO DEL SERVICIO --- */
-.section-title { text-align: center; margin: 50px 0 30px; font-size: 1.5rem; letter-spacing: 4px; color: var(--text); }
-.service-grid { 
-    display: flex; 
-    justify-content: center; 
-    gap: 50px; 
-    padding: 50px 20px; 
-    background: #0a0a0a; 
-    border-top: 1px solid var(--accent);
-    flex-wrap: wrap;
-}
-
-.service-item { text-align: center; min-width: 120px; }
-.circle-icon { 
-    width: 70px; height: 70px; 
-    border-radius: 50%; 
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
-    font-size: 1.8rem; 
-    color: #000; 
-    margin: 0 auto 15px; 
-    transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
-}
-
-.green-bg { background: var(--green); box-shadow: 0 0 25px rgba(0, 255, 136, 0.3); }
-.red-bg { background: var(--red); box-shadow: 0 0 25px rgba(255, 62, 62, 0.3); }
-
-.service-label { font-weight: bold; font-size: 1rem; color: #fff; }
-.service-desc { font-size: 0.85rem; font-weight: bold; margin-top: 8px; text-transform: uppercase; }
-
-/* --- TABLAS Y PANEL --- */
-.container { max-width: 1100px; margin: 40px auto; padding: 0 20px; }
-table { width: 100%; border-collapse: collapse; background: var(--card); border-radius: 10px; overflow: hidden; }
-th { background: #1a1a1a; padding: 20px; text-align: left; color: var(--green); border-bottom: 2px solid var(--accent); }
-td { padding: 18px; border-bottom: 1px solid var(--accent); }
-
-.admin-card {
-    background: var(--card);
-    padding: 35px;
-    border-radius: 15px;
-    border: 1px solid var(--accent);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-}
-
-.control-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 0;
-    border-bottom: 1px solid var(--accent);
-}
-
-.btn-toggle {
-    padding: 10px 25px;
-    border-radius: 6px;
-    border: none;
-    font-weight: bold;
-    cursor: pointer;
-    transition: 0.3s;
-    text-transform: uppercase;
-}
+        function renderBtn(label, field, val) {
+            return `
+                <div class="control-row">
+                    <span style="font-weight:bold; font-size:1.1rem;">${label}</span>
+                    <button onclick="toggleFunc('${field}', ${val})" class="btn-toggle" style="background:${val ? '#00ff88' : '#ff3e3e'}; color:#000;">
+                        ${val ? '✅ ACTIVO' : '❌ DESACTIVADO'}
+                    </button>
+                </div>`;
+        }
+    </script>
+</body>
+</html>
