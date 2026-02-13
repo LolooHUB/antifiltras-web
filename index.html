@@ -1,61 +1,99 @@
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getFirestore, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anti-Filtras Community | Oficial</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <header class="main-header">
+        <div class="header-container">
+            <div class="brand">
+                <img src="logo.webp" alt="Logo" class="nav-logo">
+                <span class="brand-name">ANTI-FILTRAS</span>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html" class="active">INICIO</a></li>
+                    <li><a href="reportes.html">REPORTES</a></li>
+                    <li><a href="https://discord.gg/bNKCgA3zAN" target="_blank">DISCORD</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
 
-    const firebaseConfig = {
-        apiKey: "AIzaSyAEUOzOWdq0xs3qiIlX1RzB6bpKkkMLykA",
-        authDomain: "antifiltras-7116d.firebaseapp.com",
-        projectId: "antifiltras-7116d",
-        appId: "1:795745598666:web:72b77816d3c2a3c17f8833"
-    };
+    <div class="news-ticker">
+        <div class="ticker-wrapper">
+            <div class="ticker-item"><i class="fas fa-shield-halved"></i> MONITOREO GLOBAL ACTIVO</div>
+            <div class="ticker-item"><i class="fas fa-database"></i> BASE DE DATOS SINCRONIZADA</div>
+        </div>
+    </div>
 
-    try {
+    <section class="hero">
+        <div class="hero-content">
+            <h2>TU SEGURIDAD EN DISCORD</h2>
+            <p>Protección contra filtradores en tiempo real.</p>
+            <div style="display:flex; gap:15px; justify-content:center;">
+                <a href="https://discord.com/oauth2/authorize?client_id=1398806163071570090" target="_blank" class="btn-main">INVITAR AL BOT 🚀</a>
+            </div>
+        </div>
+    </section>
+
+    <main id="estado">
+        <section class="service-status-section">
+            <h2 class="section-title">ESTADO DEL SERVICIO</h2>
+            <div class="service-grid">
+                <div class="service-item" id="status-tickets">
+                    <div class="circle-icon gray-bg"><i class="fas fa-ticket-alt"></i></div>
+                    <span class="service-label">Tickets</span>
+                    <p class="service-desc">CONECTANDO...</p>
+                </div>
+                <div class="service-item" id="status-bans">
+                    <div class="circle-icon gray-bg"><i class="fas fa-user-slash"></i></div>
+                    <span class="service-label">Baneos</span>
+                    <p class="service-desc">CONECTANDO...</p>
+                </div>
+                <div class="service-item" id="status-config">
+                    <div class="circle-icon gray-bg"><i class="fas fa-gears"></i></div>
+                    <span class="service-label">Config</span>
+                    <p class="service-desc">CONECTANDO...</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAEUOzOWdq0xs3qiIlX1RzB6bpKkkMLykA",
+            authDomain: "antifiltras-7116d.firebaseapp.com",
+            projectId: "antifiltras-7116d",
+            appId: "1:795745598666:web:72b77816d3c2a3c17f8833"
+        };
+
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // Referencia exacta al documento
-        const docRef = doc(db, "BOT_CONTROL", "settings");
+        onSnapshot(doc(db, "BOT_CONTROL", "settings"), (docSnap) => {
+            if (!docSnap.exists()) return;
+            const data = docSnap.data();
+            const map = { 'status-tickets': data.ticketsEnabled, 'status-bans': data.bansEnabled, 'status-config': data.configEnabled };
 
-        onSnapshot(docRef, (docSnap) => {
-            if (docSnap.exists()) {
-                const data = docSnap.data();
-                console.log("Datos recibidos:", data); // Mira esto en F12
-                
-                const mapping = {
-                    'status-tickets': data.ticketsEnabled,
-                    'status-bans': data.bansEnabled,
-                    'status-config': data.configEnabled
-                };
+            for (const [id, val] of Object.entries(map)) {
+                const el = document.getElementById(id);
+                if(!el) continue;
+                const circle = el.querySelector('.circle-icon');
+                const desc = el.querySelector('.service-desc');
 
-                for (const [id, val] of Object.entries(mapping)) {
-                    const el = document.getElementById(id);
-                    if (!el) continue;
-                    const circle = el.querySelector('.circle-icon');
-                    const desc = el.querySelector('.service-desc');
-
-                    if (val === 1) {
-                        circle.className = 'circle-icon green-bg';
-                        desc.innerText = 'NORMAL';
-                        desc.style.color = '#00ff88';
-                    } else if (val === 2) {
-                        circle.className = 'circle-icon yellow-bg';
-                        desc.innerText = 'MANTENIMIENTO';
-                        desc.style.color = '#ffcc00';
-                    } else {
-                        circle.className = 'circle-icon red-bg';
-                        desc.innerText = 'CERRADO';
-                        desc.style.color = '#ff3e3e';
-                    }
-                }
-            } else {
-                alert("⚠️ Error: El documento 'BOT_CONTROL/settings' no existe en tu Firebase.");
+                if (val === 1) { circle.className = 'circle-icon green-bg'; desc.innerText = 'NORMAL'; desc.style.color = '#00ff88'; }
+                else if (val === 2) { circle.className = 'circle-icon yellow-bg'; desc.innerText = 'MANTENIMIENTO'; desc.style.color = '#ffcc00'; }
+                else { circle.className = 'circle-icon red-bg'; desc.innerText = 'CERRADO'; desc.style.color = '#ff3e3e'; }
             }
-        }, (error) => {
-            console.error("Error en el Snapshot:", error);
-            alert("❌ Error de permisos o conexión: " + error.message);
         });
-    } catch (e) {
-        console.error("Error inicial:", e);
-        alert("🚀 Fallo crítico al iniciar Firebase: " + e.message);
-    }
-</script>
+    </script>
+</body>
+</html>
