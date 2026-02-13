@@ -1,83 +1,82 @@
 :root {
-    --bg-color: #0a0a0a;
-    --card-bg: #141414;
-    --accent-green: #00ff88;
-    --accent-red: #ff3e3e;
-    --text-color: #e0e0e0;
+    --bg: #050505;
+    --card: #111;
+    --green: #00ff88;
+    --red: #ff3e3e;
+    --text: #ffffff;
 }
 
 body {
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    font-family: 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Segoe UI', sans-serif;
     margin: 0;
+    scroll-behavior: smooth;
 }
 
-/* News Ticker */
-.news-ticker {
-    background: #1a1a1a;
-    padding: 10px 0;
-    overflow: hidden;
-    border-bottom: 2px solid #333;
+/* Cabecera / Header */
+.main-header {
+    background: rgba(0, 0, 0, 0.95);
+    border-bottom: 1px solid #222;
+    padding: 15px 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 }
 
-.ticker-wrapper {
-    display: flex;
-    animation: ticker 30s linear infinite;
-    white-space: nowrap;
-}
-
-.ticker-item {
-    padding: 0 50px;
-    font-size: 0.9rem;
-    font-weight: bold;
-    color: var(--accent-green);
-}
-
-@keyframes ticker {
-    0% { transform: translateX(100%); }
-    100% { transform: translateX(-100%); }
-}
-
-header {
-    text-align: center;
-    padding: 40px 20px;
-}
-
-.logo {
-    width: 120px;
-    filter: drop-shadow(0 0 10px rgba(255,255,255,0.2));
-}
-
-.status-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
-    padding: 20px;
+.header-container {
     max-width: 1200px;
-    margin: auto;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
 }
 
-.status-card {
-    background: var(--card-bg);
-    border-radius: 12px;
-    padding: 25px;
-    display: flex;
-    align-items: center;
-    border: 1px solid #222;
+.brand { display: flex; align-items: center; gap: 10px; }
+.nav-logo { width: 35px; }
+.brand-name { font-weight: bold; letter-spacing: 2px; font-size: 0.9rem; }
+
+.main-nav ul { list-style: none; display: flex; gap: 30px; margin: 0; padding: 0; }
+.main-nav a { 
+    text-decoration: none; 
+    color: #888; 
+    font-size: 0.85rem; 
+    font-weight: bold; 
     transition: 0.3s;
 }
+.main-nav a:hover, .main-nav a.active { color: var(--green); }
 
-.card-icon { font-size: 2.5rem; margin-right: 20px; }
-.card-info h3 { margin: 0; font-size: 1.1rem; }
-.status-text { font-size: 0.8rem; margin: 5px 0 0; opacity: 0.7; }
-
-.indicator {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    margin-left: auto;
+/* Hero Section */
+.hero {
+    padding: 100px 20px;
+    text-align: center;
+    background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('logo.webp');
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
-.status-card.online .indicator { background: var(--accent-green); box-shadow: 0 0 10px var(--accent-green); }
-.status-card.offline .indicator { background: var(--accent-red); box-shadow: 0 0 10px var(--accent-red); }
+.hero h2 { font-size: 2.5rem; margin-bottom: 10px; letter-spacing: 2px; }
+.hero p { color: #888; margin-bottom: 30px; }
+.btn-main { 
+    background: var(--green); 
+    color: black; 
+    padding: 12px 30px; 
+    text-decoration: none; 
+    font-weight: bold; 
+    border-radius: 5px; 
+}
+
+/* El resto del CSS de los circulos y ticker se mantiene igual... */
+.news-ticker { background: #111; padding: 10px 0; border-bottom: 1px solid #222; overflow: hidden; }
+.ticker-wrapper { display: flex; animation: ticker 30s linear infinite; }
+.ticker-item { padding: 0 40px; font-weight: bold; color: var(--green); white-space: nowrap; font-size: 0.8rem; }
+@keyframes ticker { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+
+.section-title { text-align: center; margin: 40px 0; font-size: 1.2rem; opacity: 0.8; }
+.service-grid { display: flex; justify-content: center; gap: 40px; padding: 40px; background: #0a0a0a; }
+.circle-icon { width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.8rem; color: #000; margin: 0 auto 15px; }
+.green-bg { background: var(--green); }
+.red-bg { background: var(--red); }
+.service-desc { font-size: 0.8rem; font-weight: bold; margin-top: 5px; }
