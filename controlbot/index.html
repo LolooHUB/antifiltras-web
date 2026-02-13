@@ -17,8 +17,7 @@
         <div class="admin-card" style="background:#111; padding:30px; border-radius:15px; border:1px solid #222;">
             <h2 style="text-align:center; color:#00ff88;">⚙️ PANEL DE CONTROL</h2>
             <div id="btn-container">
-                <p style="text-align:center; color:#555;">Conectando con la base de datos...</p>
-            </div>
+                </div>
             <p style="text-align:center; margin-top:20px;"><a href="../index.html" style="color:#444; text-decoration:none;">⬅️ Volver a la Web</a></p>
         </div>
     </div>
@@ -44,38 +43,30 @@
             } else { alert('❌ Contraseña Incorrecta'); }
         };
 
-        // Escuchar cambios
         onSnapshot(doc(db, "BOT_CONTROL", "settings"), (s) => {
             const container = document.getElementById('btn-container');
-            if(!s.exists()) {
-                container.innerHTML = "<p style='color:red;'>⚠️ Error: No se encontró el documento 'settings' en Firebase.</p>";
-                return;
-            }
+            if(!s.exists()) return;
             const d = s.data();
+            
             container.innerHTML = `
-                ${renderBtn('📩 Tickets', 'ticketsEnabled', d.ticketsEnabled)}
-                ${renderBtn('🚫 Baneos', 'bansEnabled', d.bansEnabled)}
-                ${renderBtn('⚙️ Config', 'configEnabled', d.configEnabled)}
+                ${renderBtn('🌐 PÁGINA WEB', 'webEnabled', d.webEnabled)}
+                ${renderBtn('📩 TICKETS', 'ticketsEnabled', d.ticketsEnabled)}
+                ${renderBtn('🚫 BANEOS GLOBALES', 'bansEnabled', d.bansEnabled)}
+                ${renderBtn('⚙️ CONFIGURACIÓN', 'configEnabled', d.configEnabled)}
             `;
         });
 
         window.toggleFunc = async (field, currentVal) => {
-            // Rotación: 1 -> 2 -> 0 -> 1
             let next = currentVal === 1 ? 2 : (currentVal === 2 ? 0 : 1);
             await updateDoc(doc(db, "BOT_CONTROL", "settings"), { [field]: next });
         };
 
         function renderBtn(label, field, val) {
-            let cfg = { 
-                1: {c:'#00ff88', t:'🟢 NORMAL'}, 
-                2: {c:'#ffcc00', t:'🟡 MANTENIMIENTO'}, 
-                0: {c:'#ff3e3e', t:'🔴 CERRADO'} 
-            }[val] || {c:'#555', t:'❓ ERROR'};
-
+            let cfg = { 1: {c:'#00ff88', t:'🟢 OPERATIVO'}, 2: {c:'#ffcc00', t:'🟡 MANTENIMIENTO'}, 0: {c:'#ff3e3e', t:'🔴 DESACTIVADO'} }[val];
             return `
                 <div style="display:flex; justify-content:space-between; align-items:center; padding:15px 0; border-bottom:1px solid #222;">
-                    <span style="font-weight:bold;">${label}</span>
-                    <button onclick="toggleFunc('${field}', ${val})" style="background:${cfg.c}; color:#000; border:none; padding:10px 20px; border-radius:5px; font-weight:bold; cursor:pointer; min-width:140px;">
+                    <span style="font-weight:bold; color:#eee;">${label}</span>
+                    <button onclick="toggleFunc('${field}', ${val})" style="background:${cfg.c}; color:#000; border:none; padding:10px 15px; border-radius:5px; font-weight:bold; cursor:pointer; min-width:150px;">
                         ${cfg.t}
                     </button>
                 </div>`;
