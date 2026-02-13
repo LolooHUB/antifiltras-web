@@ -2,8 +2,10 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Reportes | Anti-Filtras</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anti-Filtras Community | Oficial</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
     <header class="main-header">
@@ -14,34 +16,59 @@
             </div>
             <nav class="main-nav">
                 <ul>
-                    <li><a href="index.html">INICIO</a></li>
-                    <li><a href="reportes.html" class="active">REPORTES</a></li>
-                    <li><a href="index.html#estado">ESTADO</a></li>
+                    <li><a href="index.html" class="active">INICIO</a></li>
+                    <li><a href="reportes.html">REPORTES</a></li>
+                    <li><a href="https://discord.gg/bNKCgA3zAN" target="_blank">DISCORD</a></li>
                 </ul>
             </nav>
         </div>
     </header>
 
-    <main class="container">
-        <h2 class="section-title">LISTA GLOBAL DE FILTRADORES</h2>
-        <div style="overflow-x: auto; padding: 20px;">
-            <table id="bans-table" style="width: 100%; border-collapse: collapse; background: #111;">
-                <thead>
-                    <tr style="border-bottom: 2px solid #333; text-align: left;">
-                        <th style="padding: 15px;">USUARIO (ID)</th>
-                        <th style="padding: 15px;">MOTIVO</th>
-                        <th style="padding: 15px;">EVIDENCIA</th>
-                    </tr>
-                </thead>
-                <tbody id="bans-body">
-                    </tbody>
-            </table>
+    <div class="news-ticker">
+        <div class="ticker-wrapper">
+            <div class="ticker-item"><i class="fas fa-shield-halved"></i> MONITOREO GLOBAL ACTIVO</div>
+            <div class="ticker-item"><i class="fas fa-database"></i> BASE DE DATOS SINCRONIZADA</div>
+            <div class="ticker-item"><i class="fas fa-robot"></i> BOT PROTEGIENDO COMUNIDADES</div>
         </div>
+    </div>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h2>TU SEGURIDAD EN DISCORD 🛡️</h2>
+            <p>Protección contra filtradores en tiempo real con tecnología de baneo global.</p>
+            <div style="display:flex; gap:15px; justify-content:center; flex-wrap:wrap;">
+                <a href="https://discord.com/oauth2/authorize?client_id=1398806163071570090" target="_blank" class="btn-main">INVITAR AL BOT 🚀</a>
+                <a href="https://discord.gg/bNKCgA3zAN" target="_blank" class="btn-sec">UNIRSE AL SERVER 💬</a>
+            </div>
+        </div>
+    </section>
+
+    <main id="estado">
+        <section class="service-status-section">
+            <h2 class="section-title">ESTADO DEL SERVICIO</h2>
+            <div class="service-grid">
+                <div class="service-item" id="status-tickets">
+                    <div class="circle-icon green-bg"><i class="fas fa-ticket-alt"></i></div>
+                    <span class="service-label">Tickets</span>
+                    <p class="service-desc">Conectando...</p>
+                </div>
+                <div class="service-item" id="status-bans">
+                    <div class="circle-icon green-bg"><i class="fas fa-user-slash"></i></div>
+                    <span class="service-label">Baneos</span>
+                    <p class="service-desc">Conectando...</p>
+                </div>
+                <div class="service-item" id="status-config">
+                    <div class="circle-icon green-bg"><i class="fas fa-gears"></i></div>
+                    <span class="service-label">Config</span>
+                    <p class="service-desc">Conectando...</p>
+                </div>
+            </div>
+        </section>
     </main>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getFirestore, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getFirestore, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyAEUOzOWdq0xs3qiIlX1RzB6bpKkkMLykA",
@@ -53,19 +80,34 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        onSnapshot(collection(db, "BANEOS"), (snapshot) => {
-            const body = document.getElementById('bans-body');
-            body.innerHTML = '';
-            snapshot.forEach((doc) => {
-                const b = doc.data();
-                body.innerHTML += `
-                    <tr style="border-bottom: 1px solid #222;">
-                        <td style="padding: 15px;">${b.id || b.userId}</td>
-                        <td style="padding: 15px; color: #ff3e3e;">${b.mot || b.motivo}</td>
-                        <td style="padding: 15px;"><a href="${b.ev || b.evidencia}" target="_blank" style="color: #00ff88;">Ver Prueba</a></td>
-                    </tr>
-                `;
-            });
+        onSnapshot(doc(db, "BOT_CONTROL", "settings"), (docSnap) => {
+            if (!docSnap.exists()) return;
+            const data = docSnap.data();
+            const mapping = {
+                'status-tickets': data.ticketsEnabled,
+                'status-bans': data.bansEnabled,
+                'status-config': data.configEnabled
+            };
+
+            for (const [id, val] of Object.entries(mapping)) {
+                const el = document.getElementById(id);
+                const circle = el.querySelector('.circle-icon');
+                const desc = el.querySelector('.service-desc');
+
+                if (val === 1) {
+                    circle.className = 'circle-icon green-bg';
+                    desc.innerText = 'NORMAL';
+                    desc.style.color = '#00ff88';
+                } else if (val === 2) {
+                    circle.className = 'circle-icon yellow-bg';
+                    desc.innerText = 'MANTENIMIENTO';
+                    desc.style.color = '#ffcc00';
+                } else {
+                    circle.className = 'circle-icon red-bg';
+                    desc.innerText = 'CERRADO';
+                    desc.style.color = '#ff3e3e';
+                }
+            }
         });
     </script>
 </body>
