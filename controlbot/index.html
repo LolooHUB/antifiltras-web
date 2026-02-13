@@ -7,18 +7,19 @@
 </head>
 <body>
     <div id="login" style="text-align:center; padding-top: 150px;">
-        <img src="../logo.webp" width="120" style="margin-bottom:20px;">
-        <h2 style="letter-spacing:2px;">🔐 ACCESO STAFF</h2>
-        <input type="password" id="pass" placeholder="Contraseña" style="padding:15px; width:250px; border-radius:8px; border:1px solid #333; background:#111; color:white;">
-        <br><br>
-        <button onclick="checkPass()" style="padding:15px 30px; background:#00ff88; color:black; border:none; border-radius:8px; font-weight:bold; cursor:pointer;">ENTRAR 🚀</button>
+        <img src="../logo.webp" width="100">
+        <h2>🔐 ACCESO STAFF</h2>
+        <input type="password" id="pass" placeholder="Contraseña" style="padding:12px; background:#111; color:white; border:1px solid #333; border-radius:5px;">
+        <button onclick="checkPass()" style="padding:12px 20px; background:#00ff88; border:none; border-radius:5px; cursor:pointer; font-weight:bold;">ENTRAR</button>
     </div>
 
     <div id="panel" style="display:none;" class="container">
-        <div class="admin-card" style="background:#111; padding:40px; border-radius:15px; border:1px solid #222;">
-            <h2 style="text-align:center; color:#00ff88; margin-bottom:30px;">⚙️ CONTROL DE SERVICIOS</h2>
-            <div id="btn-container"></div>
-            <p style="text-align:center; margin-top:30px;"><a href="../index.html" style="color:#555; text-decoration:none;">⬅️ Volver a la Web</a></p>
+        <div class="admin-card" style="background:#111; padding:30px; border-radius:15px; border:1px solid #222;">
+            <h2 style="text-align:center; color:#00ff88;">⚙️ PANEL DE CONTROL</h2>
+            <div id="btn-container">
+                <p style="text-align:center; color:#555;">Conectando con la base de datos...</p>
+            </div>
+            <p style="text-align:center; margin-top:20px;"><a href="../index.html" style="color:#444; text-decoration:none;">⬅️ Volver a la Web</a></p>
         </div>
     </div>
 
@@ -40,31 +41,41 @@
             if(document.getElementById('pass').value === 'Antifiltras2026') {
                 document.getElementById('login').style.display = 'none';
                 document.getElementById('panel').style.display = 'block';
-            } else { alert('❌ Acceso Denegado'); }
+            } else { alert('❌ Contraseña Incorrecta'); }
         };
 
+        // Escuchar cambios
         onSnapshot(doc(db, "BOT_CONTROL", "settings"), (s) => {
-            if(!s.exists()) return;
+            const container = document.getElementById('btn-container');
+            if(!s.exists()) {
+                container.innerHTML = "<p style='color:red;'>⚠️ Error: No se encontró el documento 'settings' en Firebase.</p>";
+                return;
+            }
             const d = s.data();
-            const c = document.getElementById('btn-container');
-            c.innerHTML = `
+            container.innerHTML = `
                 ${renderBtn('📩 Tickets', 'ticketsEnabled', d.ticketsEnabled)}
                 ${renderBtn('🚫 Baneos', 'bansEnabled', d.bansEnabled)}
                 ${renderBtn('⚙️ Config', 'configEnabled', d.configEnabled)}
             `;
         });
 
-        window.toggleFunc = async (f, v) => {
-            let next = v === 1 ? 2 : (v === 2 ? 0 : 1);
-            await updateDoc(doc(db, "BOT_CONTROL", "settings"), { [f]: next });
+        window.toggleFunc = async (field, currentVal) => {
+            // Rotación: 1 -> 2 -> 0 -> 1
+            let next = currentVal === 1 ? 2 : (currentVal === 2 ? 0 : 1);
+            await updateDoc(doc(db, "BOT_CONTROL", "settings"), { [field]: next });
         };
 
         function renderBtn(label, field, val) {
-            let cfg = { 1: {c:'#00ff88', t:'🟢 NORMAL'}, 2: {c:'#ffcc00', t:'🟡 MANTENIMIENTO'}, 0: {c:'#ff3e3e', t:'🔴 CERRADO'} }[val];
+            let cfg = { 
+                1: {c:'#00ff88', t:'🟢 NORMAL'}, 
+                2: {c:'#ffcc00', t:'🟡 MANTENIMIENTO'}, 
+                0: {c:'#ff3e3e', t:'🔴 CERRADO'} 
+            }[val] || {c:'#555', t:'❓ ERROR'};
+
             return `
-                <div style="display:flex; justify-content:space-between; align-items:center; padding:20px 0; border-bottom:1px solid #222;">
+                <div style="display:flex; justify-content:space-between; align-items:center; padding:15px 0; border-bottom:1px solid #222;">
                     <span style="font-weight:bold;">${label}</span>
-                    <button onclick="toggleFunc('${field}', ${val})" style="background:${cfg.c}; color:#000; border:none; padding:10px 20px; border-radius:5px; font-weight:bold; cursor:pointer; min-width:150px;">
+                    <button onclick="toggleFunc('${field}', ${val})" style="background:${cfg.c}; color:#000; border:none; padding:10px 20px; border-radius:5px; font-weight:bold; cursor:pointer; min-width:140px;">
                         ${cfg.t}
                     </button>
                 </div>`;
