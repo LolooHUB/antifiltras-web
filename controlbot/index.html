@@ -2,24 +2,19 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>⚙️ Admin Panel | Anti-Filtras</title>
+    <title>⚙️ Admin Panel</title>
     <link rel="stylesheet" href="../style.css">
 </head>
-<body>
-    <div id="login" style="text-align:center; padding-top: 150px;">
-        <img src="../logo.webp" width="100">
+<body style="background:#050505; color:white; font-family:sans-serif;">
+    <div id="login" style="text-align:center; padding-top: 100px;">
         <h2>🔐 ACCESO STAFF</h2>
-        <input type="password" id="pass" placeholder="Contraseña" style="padding:12px; background:#111; color:white; border:1px solid #333; border-radius:5px;">
-        <button onclick="checkPass()" style="padding:12px 20px; background:#00ff88; border:none; border-radius:5px; cursor:pointer; font-weight:bold;">ENTRAR</button>
+        <input type="password" id="pass" style="padding:10px; border-radius:5px; border:none;">
+        <button onclick="checkPass()" style="padding:10px; cursor:pointer;">ENTRAR</button>
     </div>
 
-    <div id="panel" style="display:none;" class="container">
-        <div class="admin-card" style="background:#111; padding:30px; border-radius:15px; border:1px solid #222;">
-            <h2 style="text-align:center; color:#00ff88;">⚙️ PANEL DE CONTROL</h2>
-            <div id="btn-container">
-                </div>
-            <p style="text-align:center; margin-top:20px;"><a href="../index.html" style="color:#444; text-decoration:none;">⬅️ Volver a la Web</a></p>
-        </div>
+    <div id="panel" style="display:none; max-width:500px; margin:auto; padding-top:50px;">
+        <h2 style="text-align:center;">⚙️ CONTROL DE SISTEMAS</h2>
+        <div id="btn-container"></div>
     </div>
 
     <script type="module">
@@ -32,7 +27,6 @@
             projectId: "antifiltras-7116d",
             appId: "1:795745598666:web:72b77816d3c2a3c17f8833"
         };
-
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
@@ -40,36 +34,30 @@
             if(document.getElementById('pass').value === 'Antifiltras2026') {
                 document.getElementById('login').style.display = 'none';
                 document.getElementById('panel').style.display = 'block';
-            } else { alert('❌ Contraseña Incorrecta'); }
+            }
         };
 
         onSnapshot(doc(db, "BOT_CONTROL", "settings"), (s) => {
             const container = document.getElementById('btn-container');
-            if(!s.exists()) return;
             const d = s.data();
-            
             container.innerHTML = `
-                ${renderBtn('🌐 PÁGINA WEB', 'webEnabled', d.webEnabled)}
+                <button onclick="enviarAlerta()" style="width:100%; padding:15px; background:#ff3e3e; color:white; border:none; border-radius:5px; font-weight:bold; margin-bottom:20px; cursor:pointer;">📢 NOTIFICAR CAMBIOS EN DISCORD</button>
+                ${renderBtn('🌐 WEB', 'webEnabled', d.webEnabled)}
                 ${renderBtn('📩 TICKETS', 'ticketsEnabled', d.ticketsEnabled)}
-                ${renderBtn('🚫 BANEOS GLOBALES', 'bansEnabled', d.bansEnabled)}
-                ${renderBtn('⚙️ CONFIGURACIÓN', 'configEnabled', d.configEnabled)}
+                ${renderBtn('🚫 BANS', 'bansEnabled', d.bansEnabled)}
+                ${renderBtn('⚙️ CONFIG', 'configEnabled', d.configEnabled)}
             `;
         });
 
-        window.toggleFunc = async (field, currentVal) => {
-            let next = currentVal === 1 ? 2 : (currentVal === 2 ? 0 : 1);
-            await updateDoc(doc(db, "BOT_CONTROL", "settings"), { [field]: next });
-        };
-
-        function renderBtn(label, field, val) {
-            let cfg = { 1: {c:'#00ff88', t:'🟢 OPERATIVO'}, 2: {c:'#ffcc00', t:'🟡 MANTENIMIENTO'}, 0: {c:'#ff3e3e', t:'🔴 DESACTIVADO'} }[val];
-            return `
-                <div style="display:flex; justify-content:space-between; align-items:center; padding:15px 0; border-bottom:1px solid #222;">
-                    <span style="font-weight:bold; color:#eee;">${label}</span>
-                    <button onclick="toggleFunc('${field}', ${val})" style="background:${cfg.c}; color:#000; border:none; padding:10px 15px; border-radius:5px; font-weight:bold; cursor:pointer; min-width:150px;">
-                        ${cfg.t}
-                    </button>
-                </div>`;
+        window.enviarAlerta = async () => { if(confirm("¿Mencionar al Staff?")) await updateDoc(doc(db, "BOT_CONTROL", "settings"), { forcePing: Date.now() }); };
+        window.toggleFunc = async (f, v) => { await updateDoc(doc(db, "BOT_CONTROL", "settings"), { [f]: v === 1 ? 2 : (v === 2 ? 0 : 1) }); };
+        function renderBtn(l, f, v) {
+            let c = v === 1 ? '#00ff88' : (v === 2 ? '#ffcc00' : '#ff3e3e');
+            let t = v === 1 ? 'OPERATIVO' : (v === 2 ? 'MANTENIMIENTO' : 'DESACTIVADO');
+            return `<div style="display:flex; justify-content:space-between; margin-bottom:10px; background:#111; padding:15px; border-radius:5px;">
+                <span>${l}</span>
+                <button onclick="toggleFunc('${f}', ${v})" style="background:${c}; border:none; padding:5px 10px; border-radius:3px; font-weight:bold; cursor:pointer;">${t}</button>
+            </div>`;
         }
     </script>
 </body>
