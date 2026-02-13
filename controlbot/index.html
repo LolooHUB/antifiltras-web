@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>ADMIN | Anti-Filtras Control</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .admin-panel { max-width: 600px; margin: 50px auto; padding: 20px; background: #111; border-radius: 15px; }
+        .control-row { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid #222; }
+        button { padding: 10px 20px; cursor: pointer; border-radius: 5px; border: none; font-weight: bold; }
+        .btn-on { background: #00ff88; color: #000; }
+        .btn-off { background: #ff3e3e; color: #fff; }
+    </style>
+</head>
+<body>
+    <div id="login-area" style="text-align: center; margin-top: 100px;">
+        <h2>Acceso Restringido</h2>
+        <input type="password" id="pass" placeholder="Contraseña...">
+        <button onclick="login()">Entrar</button>
+    </div>
+
+    <div id="admin-area" class="admin-panel" style="display: none;">
+        <h1>Control de Funciones</h1>
+        <div id="controls">
+            </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, doc, updateDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        window.login = () => {
+            const p = document.getElementById('pass').value;
+            if(p === 'Antifiltras2026') {
+                document.getElementById('login-area').style.display = 'none';
+                document.getElementById('admin-area').style.display = 'block';
+            } else { alert('Contraseña incorrecta'); }
+        };
+
+        const firebaseConfig = { /* MISMA CONFIG */ };
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        onSnapshot(doc(db, "BOT_CONTROL", "settings"), (docSnap) => {
+            const data = docSnap.data();
+            const container = document.getElementById('controls');
+            container.innerHTML = `
+                ${renderControl('Tickets', 'ticketsEnabled', data.ticketsEnabled)}
+                ${renderControl('Baneos', 'bansEnabled', data.bansEnabled)}
+                ${renderControl('Configuración', 'configEnabled', data.configEnabled)}
+            `;
+        });
+
+        window.toggle = async (field, current) => {
+            const botRef = doc(db, "BOT_CONTROL", "settings");
+            await updateDoc(botRef, { [field]: !current });
+        };
+
+        function renderControl(label, field, val) {
+            return `
+                <div class="control-row">
+                    <span>${label}</span>
+                    <button class="${val ? 'btn-on' : 'btn-off'}" onclick="toggle('${field}', ${val})">
+                        ${val ? 'HABILITADO' : 'DESHABILITADO'}
+                    </button>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>
