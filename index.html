@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Anti-Filtras Community | Oficial</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
     <header class="main-header">
@@ -25,16 +26,16 @@
 
     <div class="news-ticker">
         <div class="ticker-wrapper">
-            <div class="ticker-item">🚨 MONITOREO GLOBAL: Filtros de seguridad activos 24/7.</div>
-            <div class="ticker-item">✅ ACTUALIZACIÓN: Base de datos de filtradores sincronizada.</div>
-            <div class="ticker-item">🛡️ COMUNIDAD: Únete al Discord oficial para reportar.</div>
+            <div class="ticker-item"><i class="fas fa-shield-halved"></i> MONITOREO GLOBAL ACTIVO</div>
+            <div class="ticker-item"><i class="fas fa-database"></i> BASE DE DATOS SINCRONIZADA</div>
+            <div class="ticker-item"><i class="fas fa-check-circle"></i> SISTEMA OPERATIVO 24/7</div>
         </div>
     </div>
 
     <section class="hero">
         <div class="hero-content">
             <h2>TU SEGURIDAD EN DISCORD</h2>
-            <p>Monitoreamos y protegemos comunidades contra filtradores en tiempo real.</p>
+            <p>Protección contra filtradores en tiempo real con tecnología de baneo global.</p>
             <a href="#" class="btn-main">INVITAR AL BOT</a>
         </div>
     </section>
@@ -44,17 +45,23 @@
             <h2 class="section-title">ESTADO DEL SERVICIO</h2>
             <div class="service-grid">
                 <div class="service-item" id="status-tickets">
-                    <div class="circle-icon green-bg">T</div>
+                    <div class="circle-icon green-bg">
+                        <i class="fas fa-ticket-alt"></i>
+                    </div>
                     <span class="service-label">Tickets</span>
                     <p class="service-desc">Normal</p>
                 </div>
                 <div class="service-item" id="status-bans">
-                    <div class="circle-icon green-bg">B</div>
+                    <div class="circle-icon green-bg">
+                        <i class="fas fa-user-slash"></i>
+                    </div>
                     <span class="service-label">Baneos</span>
                     <p class="service-desc">Normal</p>
                 </div>
                 <div class="service-item" id="status-config">
-                    <div class="circle-icon green-bg">C</div>
+                    <div class="circle-icon green-bg">
+                        <i class="fas fa-gears"></i>
+                    </div>
                     <span class="service-label">Config</span>
                     <p class="service-desc">Normal</p>
                 </div>
@@ -77,115 +84,22 @@
         const db = getFirestore(app);
 
         onSnapshot(doc(db, "BOT_CONTROL", "settings"), (docSnap) => {
-            const data = docSnap.exists() ? docSnap.data() : { ticketsEnabled: true, bansEnabled: true, configEnabled: true };
-            updateStatus('status-tickets', data.ticketsEnabled);
-            updateStatus('status-bans', data.bansEnabled);
-            updateStatus('status-config', data.configEnabled);
+            if (!docSnap.exists()) return;
+            const data = docSnap.data();
+            
+            const mapping = {
+                'status-tickets': data.ticketsEnabled,
+                'status-bans': data.bansEnabled,
+                'status-config': data.configEnabled
+            };
+
+            for (const [id, isEn] of Object.entries(mapping)) {
+                const el = document.getElementById(id);
+                el.querySelector('.circle-icon').className = isEn ? 'circle-icon green-bg' : 'circle-icon red-bg';
+                el.querySelector('.service-desc').innerText = isEn ? 'Normal' : 'Cerrado';
+                el.querySelector('.service-desc').style.color = isEn ? '#00ff88' : '#ff3e3e';
+            }
         });
-
-        function updateStatus(id, enabled) {
-            const el = document.getElementById(id);
-            const circle = el.querySelector('.circle-icon');
-            const desc = el.querySelector('.service-desc');
-            circle.className = enabled ? 'circle-icon green-bg' : 'circle-icon red-bg';
-            desc.innerText = enabled ? 'Normal' : 'Interrumpido';
-            desc.style.color = enabled ? '#00ff88' : '#ff3e3e';
-        }
-    </script>
-</body>
-</html><!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anti-Filtras Community | Oficial</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <header class="main-header">
-        <div class="header-container">
-            <div class="brand">
-                <img src="logo.webp" alt="Logo" class="nav-logo">
-                <span class="brand-name">ANTI-FILTRAS</span>
-            </div>
-            <nav class="main-nav">
-                <ul>
-                    <li><a href="index.html" class="active">INICIO</a></li>
-                    <li><a href="reportes.html">REPORTES</a></li>
-                    <li><a href="#estado">ESTADO</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
-
-    <div class="news-ticker">
-        <div class="ticker-wrapper">
-            <div class="ticker-item">🚨 MONITOREO GLOBAL: Filtros de seguridad activos 24/7.</div>
-            <div class="ticker-item">✅ ACTUALIZACIÓN: Base de datos de filtradores sincronizada.</div>
-            <div class="ticker-item">🛡️ COMUNIDAD: Únete al Discord oficial para reportar.</div>
-        </div>
-    </div>
-
-    <section class="hero">
-        <div class="hero-content">
-            <h2>TU SEGURIDAD EN DISCORD</h2>
-            <p>Monitoreamos y protegemos comunidades contra filtradores en tiempo real.</p>
-            <a href="#" class="btn-main">INVITAR AL BOT</a>
-        </div>
-    </section>
-
-    <main id="estado">
-        <section class="service-status-section">
-            <h2 class="section-title">ESTADO DEL SERVICIO</h2>
-            <div class="service-grid">
-                <div class="service-item" id="status-tickets">
-                    <div class="circle-icon green-bg">T</div>
-                    <span class="service-label">Tickets</span>
-                    <p class="service-desc">Normal</p>
-                </div>
-                <div class="service-item" id="status-bans">
-                    <div class="circle-icon green-bg">B</div>
-                    <span class="service-label">Baneos</span>
-                    <p class="service-desc">Normal</p>
-                </div>
-                <div class="service-item" id="status-config">
-                    <div class="circle-icon green-bg">C</div>
-                    <span class="service-label">Config</span>
-                    <p class="service-desc">Normal</p>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getFirestore, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyAEUOzOWdq0xs3qiIlX1RzB6bpKkkMLykA",
-            authDomain: "antifiltras-7116d.firebaseapp.com",
-            projectId: "antifiltras-7116d",
-            appId: "1:795745598666:web:72b77816d3c2a3c17f8833"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-
-        onSnapshot(doc(db, "BOT_CONTROL", "settings"), (docSnap) => {
-            const data = docSnap.exists() ? docSnap.data() : { ticketsEnabled: true, bansEnabled: true, configEnabled: true };
-            updateStatus('status-tickets', data.ticketsEnabled);
-            updateStatus('status-bans', data.bansEnabled);
-            updateStatus('status-config', data.configEnabled);
-        });
-
-        function updateStatus(id, enabled) {
-            const el = document.getElementById(id);
-            const circle = el.querySelector('.circle-icon');
-            const desc = el.querySelector('.service-desc');
-            circle.className = enabled ? 'circle-icon green-bg' : 'circle-icon red-bg';
-            desc.innerText = enabled ? 'Normal' : 'Interrumpido';
-            desc.style.color = enabled ? '#00ff88' : '#ff3e3e';
-        }
     </script>
 </body>
 </html>
