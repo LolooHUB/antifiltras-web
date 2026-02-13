@@ -6,63 +6,96 @@
     <title>Anti-Filtras Community | Oficial</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* Pantalla de Bloqueo para Mantenimiento */
+        #maintenance-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #050505;
+            z-index: 9999;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+        }
+        #maintenance-overlay i { font-size: 5rem; color: #ffcc00; margin-bottom: 20px; }
+        #maintenance-overlay h1 { color: #fff; font-size: 2.5rem; }
+        #maintenance-overlay p { color: #888; font-size: 1.2rem; }
+    </style>
 </head>
 <body>
-    <header class="main-header">
-        <div class="header-container">
-            <div class="brand">
-                <img src="logo.webp" alt="Logo" class="nav-logo">
-                <span class="brand-name">ANTI-FILTRAS</span>
-            </div>
-            <nav class="main-nav">
-                <ul>
-                    <li><a href="index.html" class="active">INICIO</a></li>
-                    <li><a href="reportes.html">REPORTES</a></li>
-                    <li><a href="https://discord.gg/bNKCgA3zAN" target="_blank">DISCORD</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
 
-    <div class="news-ticker">
-        <div class="ticker-wrapper">
-            <div class="ticker-item"><i class="fas fa-shield-halved"></i> MONITOREO GLOBAL ACTIVO</div>
-            <div class="ticker-item"><i class="fas fa-database"></i> BASE DE DATOS SINCRONIZADA</div>
-        </div>
+    <div id="maintenance-overlay">
+        <i class="fas fa-tools"></i>
+        <h1 id="maint-title">SISTEMA EN MANTENIMIENTO</h1>
+        <p id="maint-desc">Estamos realizando mejoras técnicas. Volveremos pronto.</p>
+        <a href="https://discord.gg/bNKCgA3zAN" class="btn-main" style="margin-top:30px;">IR AL DISCORD</a>
     </div>
 
-    <section class="hero">
-        <div class="hero-content">
-            <h2>TU SEGURIDAD EN DISCORD</h2>
-            <p>Protección contra filtradores en tiempo real.</p>
-            <div style="display:flex; gap:15px; justify-content:center;">
-                <a href="https://discord.com/oauth2/authorize?client_id=1398806163071570090" target="_blank" class="btn-main">INVITAR AL BOT 🚀</a>
+    <div id="main-content">
+        <header class="main-header">
+            <div class="header-container">
+                <div class="brand">
+                    <img src="logo.webp" alt="Logo" class="nav-logo">
+                    <span class="brand-name">ANTI-FILTRAS</span>
+                </div>
+                <nav class="main-nav">
+                    <ul>
+                        <li><a href="index.html" class="active">INICIO</a></li>
+                        <li><a href="reportes.html">REPORTES</a></li>
+                        <li><a href="https://discord.gg/bNKCgA3zAN" target="_blank">DISCORD</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+
+        <div class="news-ticker">
+            <div class="ticker-wrapper">
+                <div class="ticker-item"><i class="fas fa-shield-halved"></i> PROTECCIÓN GLOBAL ACTIVA</div>
+                <div class="ticker-item"><i class="fas fa-database"></i> BASE DE DATOS SINCRONIZADA</div>
             </div>
         </div>
-    </section>
 
-    <main id="estado">
-        <section class="service-status-section">
-            <h2 class="section-title">ESTADO DEL SERVICIO</h2>
-            <div class="service-grid">
-                <div class="service-item" id="status-tickets">
-                    <div class="circle-icon gray-bg"><i class="fas fa-ticket-alt"></i></div>
-                    <span class="service-label">Tickets</span>
-                    <p class="service-desc">CONECTANDO...</p>
-                </div>
-                <div class="service-item" id="status-bans">
-                    <div class="circle-icon gray-bg"><i class="fas fa-user-slash"></i></div>
-                    <span class="service-label">Baneos</span>
-                    <p class="service-desc">CONECTANDO...</p>
-                </div>
-                <div class="service-item" id="status-config">
-                    <div class="circle-icon gray-bg"><i class="fas fa-gears"></i></div>
-                    <span class="service-label">Config</span>
-                    <p class="service-desc">CONECTANDO...</p>
+        <section class="hero">
+            <div class="hero-content">
+                <h2>TU SEGURIDAD EN DISCORD</h2>
+                <p>Protección contra filtradores en tiempo real con tecnología modular.</p>
+                <div style="display:flex; gap:15px; justify-content:center; margin-top: 20px;">
+                    <a href="https://discord.com/oauth2/authorize?client_id=1398806163071570090" target="_blank" class="btn-main">INVITAR AL BOT 🚀</a>
                 </div>
             </div>
         </section>
-    </main>
+
+        <main id="estado">
+            <section class="service-status-section">
+                <h2 class="section-title">ESTADO DE LOS SISTEMAS</h2>
+                <div class="service-grid">
+                    <div class="service-item" id="status-web">
+                        <div class="circle-icon gray-bg"><i class="fas fa-globe"></i></div>
+                        <span class="service-label">Página Web</span>
+                        <p class="service-desc">CONECTANDO...</p>
+                    </div>
+                    <div class="service-item" id="status-tickets">
+                        <div class="circle-icon gray-bg"><i class="fas fa-ticket-alt"></i></div>
+                        <span class="service-label">Tickets</span>
+                        <p class="service-desc">CONECTANDO...</p>
+                    </div>
+                    <div class="service-item" id="status-config">
+                        <div class="circle-icon gray-bg"><i class="fas fa-gears"></i></div>
+                        <span class="service-label">Configuración</span>
+                        <p class="service-desc">CONECTANDO...</p>
+                    </div>
+                    <div class="service-item" id="status-bans">
+                        <div class="circle-icon gray-bg"><i class="fas fa-user-slash"></i></div>
+                        <span class="service-label">Baneos</span>
+                        <p class="service-desc">CONECTANDO...</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
@@ -81,17 +114,48 @@
         onSnapshot(doc(db, "BOT_CONTROL", "settings"), (docSnap) => {
             if (!docSnap.exists()) return;
             const data = docSnap.data();
-            const map = { 'status-tickets': data.ticketsEnabled, 'status-bans': data.bansEnabled, 'status-config': data.configEnabled };
 
-            for (const [id, val] of Object.entries(map)) {
+            // 1. Control de Bloqueo Web
+            const overlay = document.getElementById('maintenance-overlay');
+            const mainContent = document.getElementById('main-content');
+            
+            if (data.webEnabled === 0 || data.webEnabled === 2) {
+                overlay.style.display = 'flex';
+                mainContent.style.display = 'none';
+                document.getElementById('maint-title').innerText = data.webEnabled === 0 ? "SISTEMA CERRADO" : "SISTEMA EN MANTENIMIENTO";
+                document.getElementById('maint-desc').innerText = data.webEnabled === 0 ? "El acceso a la web ha sido restringido por la administración." : "Estamos realizando mejoras técnicas. Volveremos pronto.";
+            } else {
+                overlay.style.display = 'none';
+                mainContent.style.display = 'block';
+            }
+
+            // 2. Actualizar Indicadores Visuales
+            const systems = {
+                'status-web': data.webEnabled,
+                'status-tickets': data.ticketsEnabled,
+                'status-config': data.configEnabled,
+                'status-bans': data.bansEnabled
+            };
+
+            for (const [id, val] of Object.entries(systems)) {
                 const el = document.getElementById(id);
-                if(!el) continue;
+                if (!el) continue;
                 const circle = el.querySelector('.circle-icon');
                 const desc = el.querySelector('.service-desc');
 
-                if (val === 1) { circle.className = 'circle-icon green-bg'; desc.innerText = 'NORMAL'; desc.style.color = '#00ff88'; }
-                else if (val === 2) { circle.className = 'circle-icon yellow-bg'; desc.innerText = 'MANTENIMIENTO'; desc.style.color = '#ffcc00'; }
-                else { circle.className = 'circle-icon red-bg'; desc.innerText = 'CERRADO'; desc.style.color = '#ff3e3e'; }
+                if (val === 1) {
+                    circle.className = 'circle-icon green-bg';
+                    desc.innerText = 'OPERATIVO';
+                    desc.style.color = '#00ff88';
+                } else if (val === 2) {
+                    circle.className = 'circle-icon yellow-bg';
+                    desc.innerText = 'MANTENIMIENTO';
+                    desc.style.color = '#ffcc00';
+                } else {
+                    circle.className = 'circle-icon red-bg';
+                    desc.innerText = 'DESACTIVADO';
+                    desc.style.color = '#ff3e3e';
+                }
             }
         });
     </script>
