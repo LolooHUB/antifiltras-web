@@ -7,22 +7,15 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        /* Pantalla de Bloqueo para Mantenimiento */
-        #maintenance-overlay {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: #050505;
-            z-index: 9999;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 20px;
-        }
+        #maintenance-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #050505; z-index: 9999; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 20px; }
         #maintenance-overlay i { font-size: 5rem; color: #ffcc00; margin-bottom: 20px; }
-        #maintenance-overlay h1 { color: #fff; font-size: 2.5rem; }
-        #maintenance-overlay p { color: #888; font-size: 1.2rem; }
+        /* Estilos Formulario */
+        .report-section { padding: 60px 20px; max-width: 800px; margin: 0 auto; text-align: center; }
+        .report-container { background: #121217; padding: 30px; border-radius: 15px; border: 1px solid #222; margin-top: 20px; }
+        .report-container input, .report-container textarea { width: 100%; background: #1a1a20; border: 1px solid #333; padding: 12px; color: white; border-radius: 8px; margin-bottom: 15px; box-sizing: border-box; outline: none; }
+        .report-container input:focus { border-color: #00ff88; }
+        .btn-report { background: #00ff88; color: black; border: none; padding: 15px 30px; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%; transition: 0.3s; }
+        .btn-report:disabled { background: #333; color: #666; cursor: not-allowed; }
     </style>
 </head>
 <body>
@@ -43,55 +36,34 @@
                 </div>
                 <nav class="main-nav">
                     <ul>
-                        <li><a href="index.html" class="active">INICIO</a></li>
-                        <li><a href="reportes.html">REPORTES</a></li>
+                        <li><a href="#" class="active">INICIO</a></li>
+                        <li><a href="#reportar">REPORTAR</a></li>
                         <li><a href="https://discord.gg/bNKCgA3zAN" target="_blank">DISCORD</a></li>
                     </ul>
                 </nav>
             </div>
         </header>
 
-        <div class="news-ticker">
-            <div class="ticker-wrapper">
-                <div class="ticker-item"><i class="fas fa-shield-halved"></i> PROTECCIÓN GLOBAL ACTIVA</div>
-                <div class="ticker-item"><i class="fas fa-database"></i> BASE DE DATOS SINCRONIZADA</div>
-            </div>
-        </div>
-
-        <section class="hero">
-            <div class="hero-content">
-                <h2>TU SEGURIDAD EN DISCORD</h2>
-                <p>Protección contra filtradores en tiempo real con tecnología modular.</p>
-                <div style="display:flex; gap:15px; justify-content:center; margin-top: 20px;">
-                    <a href="https://discord.com/oauth2/authorize?client_id=1398806163071570090" target="_blank" class="btn-main">INVITAR AL BOT 🚀</a>
-                </div>
-            </div>
-        </section>
-
         <main id="estado">
             <section class="service-status-section">
                 <h2 class="section-title">ESTADO DE LOS SISTEMAS</h2>
                 <div class="service-grid">
-                    <div class="service-item" id="status-web">
-                        <div class="circle-icon gray-bg"><i class="fas fa-globe"></i></div>
-                        <span class="service-label">Página Web</span>
-                        <p class="service-desc">CONECTANDO...</p>
-                    </div>
-                    <div class="service-item" id="status-tickets">
-                        <div class="circle-icon gray-bg"><i class="fas fa-ticket-alt"></i></div>
-                        <span class="service-label">Tickets</span>
-                        <p class="service-desc">CONECTANDO...</p>
-                    </div>
-                    <div class="service-item" id="status-config">
-                        <div class="circle-icon gray-bg"><i class="fas fa-gears"></i></div>
-                        <span class="service-label">Configuración</span>
-                        <p class="service-desc">CONECTANDO...</p>
-                    </div>
-                    <div class="service-item" id="status-bans">
-                        <div class="circle-icon gray-bg"><i class="fas fa-user-slash"></i></div>
-                        <span class="service-label">Baneos</span>
-                        <p class="service-desc">CONECTANDO...</p>
-                    </div>
+                    <div class="service-item" id="status-web"><div class="circle-icon gray-bg"><i class="fas fa-globe"></i></div><span class="service-label">Página Web</span><p class="service-desc">CONECTANDO...</p></div>
+                    <div class="service-item" id="status-tickets"><div class="circle-icon gray-bg"><i class="fas fa-ticket-alt"></i></div><span class="service-label">Tickets</span><p class="service-desc">CONECTANDO...</p></div>
+                    <div class="service-item" id="status-config"><div class="circle-icon gray-bg"><i class="fas fa-gears"></i></div><span class="service-label">Configuración</span><p class="service-desc">CONECTANDO...</p></div>
+                    <div class="service-item" id="status-bans"><div class="circle-icon gray-bg"><i class="fas fa-user-slash"></i></div><span class="service-label">Baneos</span><p class="service-desc">CONECTANDO...</p></div>
+                </div>
+            </section>
+
+            <section class="report-section" id="reportar">
+                <h2 class="section-title">ENVIAR REPORTE RÁPIDO</h2>
+                <p style="color:#888;">Sin tickets. Solo envía la ID y la prueba.</p>
+                <div class="report-container" id="web-report-form">
+                    <input type="text" id="targetID" placeholder="ID del Infractor (Discord ID)">
+                    <input type="text" id="evidenceLink" placeholder="Link de Evidencia (Drive, Mega, Imgur...)">
+                    <textarea id="extraNote" rows="3" placeholder="Descripción breve del suceso..."></textarea>
+                    <button class="btn-report" id="btnSendReport">ENVIAR DENUNCIA</button>
+                    <p id="report-off-msg" style="display:none; color:#ff3e3e; margin-top:10px; font-weight:bold;">SISTEMA DE REPORTES TEMPORALMENTE DESACTIVADO</p>
                 </div>
             </section>
         </main>
@@ -99,65 +71,78 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getFirestore, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getFirestore, doc, onSnapshot, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyAEUOzOWdq0xs3qiIlX1RzB6bpKkkMLykA",
-            authDomain: "antifiltras-7116d.firebaseapp.com",
-            projectId: "antifiltras-7116d",
-            appId: "1:795745598666:web:72b77816d3c2a3c17f8833"
-        };
-
+        const firebaseConfig = { apiKey: "AIzaSyAEUOzOWdq0xs3qiIlX1RzB6bpKkkMLykA", authDomain: "antifiltras-7116d.firebaseapp.com", projectId: "antifiltras-7116d", appId: "1:795745598666:web:72b77816d3c2a3c17f8833" };
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
+        // --- MONITOR DE SETTINGS ---
         onSnapshot(doc(db, "BOT_CONTROL", "settings"), (docSnap) => {
             if (!docSnap.exists()) return;
             const data = docSnap.data();
 
-            // 1. Control de Bloqueo Web
+            // Bloqueo Web
             const overlay = document.getElementById('maintenance-overlay');
             const mainContent = document.getElementById('main-content');
-            
             if (data.webEnabled === 0 || data.webEnabled === 2) {
                 overlay.style.display = 'flex';
                 mainContent.style.display = 'none';
                 document.getElementById('maint-title').innerText = data.webEnabled === 0 ? "SISTEMA CERRADO" : "SISTEMA EN MANTENIMIENTO";
-                document.getElementById('maint-desc').innerText = data.webEnabled === 0 ? "El acceso a la web ha sido restringido por la administración." : "Estamos realizando mejoras técnicas. Volveremos pronto.";
             } else {
                 overlay.style.display = 'none';
                 mainContent.style.display = 'block';
             }
 
-            // 2. Actualizar Indicadores Visuales
-            const systems = {
-                'status-web': data.webEnabled,
-                'status-tickets': data.ticketsEnabled,
-                'status-config': data.configEnabled,
-                'status-bans': data.bansEnabled
-            };
+            // Control Formulario Reportes
+            const btn = document.getElementById('btnSendReport');
+            const offMsg = document.getElementById('report-off-msg');
+            if(data.webReportsEnabled === 0) {
+                btn.disabled = true;
+                btn.innerText = "SISTEMA OFF";
+                offMsg.style.display = 'block';
+            } else {
+                btn.disabled = false;
+                btn.innerText = "ENVIAR DENUNCIA";
+                offMsg.style.display = 'none';
+            }
 
+            // Actualizar Círculos (Igual que tu código anterior)
+            const systems = { 'status-web': data.webEnabled, 'status-tickets': data.ticketsEnabled, 'status-config': data.configEnabled, 'status-bans': data.bansEnabled };
             for (const [id, val] of Object.entries(systems)) {
                 const el = document.getElementById(id);
                 if (!el) continue;
                 const circle = el.querySelector('.circle-icon');
                 const desc = el.querySelector('.service-desc');
-
-                if (val === 1) {
-                    circle.className = 'circle-icon green-bg';
-                    desc.innerText = 'OPERATIVO';
-                    desc.style.color = '#00ff88';
-                } else if (val === 2) {
-                    circle.className = 'circle-icon yellow-bg';
-                    desc.innerText = 'MANTENIMIENTO';
-                    desc.style.color = '#ffcc00';
-                } else {
-                    circle.className = 'circle-icon red-bg';
-                    desc.innerText = 'DESACTIVADO';
-                    desc.style.color = '#ff3e3e';
-                }
+                circle.className = `circle-icon ${val === 1 ? 'green-bg' : (val === 2 ? 'yellow-bg' : 'red-bg')}`;
+                desc.innerText = val === 1 ? 'OPERATIVO' : (val === 2 ? 'MANTENIMIENTO' : 'DESACTIVADO');
+                desc.style.color = val === 1 ? '#00ff88' : (val === 2 ? '#ffcc00' : '#ff3e3e');
             }
         });
+
+        // --- ENVÍO DE REPORTES ---
+        document.getElementById('btnSendReport').onclick = async () => {
+            const id = document.getElementById('targetID').value;
+            const link = document.getElementById('evidenceLink').value;
+            const msg = document.getElementById('extraNote').value;
+
+            if(!id || !link) return alert("Faltan datos obligatorios.");
+
+            try {
+                await addDoc(collection(db, "WEB_REPORTS"), {
+                    infractorID: id,
+                    evidenciaLink: link,
+                    comentario: msg,
+                    timestamp: serverTimestamp()
+                });
+                alert("✨ Reporte enviado con éxito al Staff.");
+                document.getElementById('targetID').value = "";
+                document.getElementById('evidenceLink').value = "";
+                document.getElementById('extraNote').value = "";
+            } catch(e) {
+                alert("Error al conectar con la base de datos.");
+            }
+        };
     </script>
 </body>
 </html>
