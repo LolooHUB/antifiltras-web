@@ -6,67 +6,144 @@
     <title>Anti-Filtras Community | Oficial</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        :root { --main: #00ff88; --bg: #050508; --card: #0d0d12; --text: #e0e0e0; }
+        :root { 
+            --main: #00d9ff; 
+            --accent: #00ff88;
+            --bg: #020617; 
+            --card: rgba(15, 23, 42, 0.8); 
+            --text: #f1f5f9; 
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Outfit', sans-serif; scroll-behavior: smooth; }
-        body { background: var(--bg); color: var(--text); }
-
-        header { position: fixed; top: 0; width: 100%; background: rgba(5, 5, 8, 0.9); backdrop-filter: blur(15px); border-bottom: 1px solid #1a1a20; z-index: 1000; }
-        .nav-container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 12px 25px; }
-        .brand { font-weight: 800; color: var(--main); display: flex; align-items: center; gap: 12px; font-size: 1.2rem; text-decoration: none; }
-        .nav-links { display: flex; gap: 20px; list-style: none; }
-        .nav-links a { color: var(--text); text-decoration: none; font-size: 0.85rem; font-weight: 600; }
-
-        .hero { padding: 160px 20px 60px; text-align: center; }
         
-        /* BOT CORE */
-        .bot-status-wrap { display: flex; justify-content: center; margin-bottom: 40px; }
-        .bot-card { background: var(--card); border: 1px solid #222; padding: 30px; border-radius: 25px; text-align: center; width: 280px; }
-        .pulse-core { width: 65px; height: 65px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; font-size: 1.6rem; }
-        .glow-green { background: var(--main); color: #000; box-shadow: 0 0 30px rgba(0, 255, 136, 0.3); animation: pulse-g 2s infinite; }
-        .glow-red { background: #ff3e3e; color: #fff; }
-        @keyframes pulse-g { 0% { box-shadow: 0 0 0 0 rgba(0,255,136,0.5); } 70% { box-shadow: 0 0 0 20px rgba(0,255,136,0); } 100% { box-shadow: 0 0 0 0 rgba(0,255,136,0); } }
+        /* Fondo Azul con Líneas */
+        body { 
+            background: var(--bg);
+            background-image: 
+                linear-gradient(rgba(0, 217, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 217, 255, 0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
+            color: var(--text);
+            overflow-x: hidden;
+        }
 
-        /* CIRCULOS DE COLOR */
-        .service-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 15px; max-width: 1100px; margin: 0 auto; }
-        .s-item { background: var(--card); padding: 20px; border-radius: 20px; border: 1px solid #1a1a20; text-align: center; }
-        .status-dot { width: 12px; height: 12px; border-radius: 50%; margin: 10px auto; display: block; border: 2px solid rgba(0,0,0,0.3); }
-        
-        /* LISTA DE FILTRAS CON PFP */
-        .list-section { max-width: 900px; margin: 80px auto; padding: 0 20px; }
-        .report-list { background: var(--card); border-radius: 20px; border: 1px solid #1a1a20; }
-        .report-item { display: flex; align-items: center; padding: 15px 25px; border-bottom: 1px solid #1a1a20; gap: 15px; }
-        .pfp-img { width: 45px; height: 45px; border-radius: 50%; border: 2px solid var(--main); background: #1a1a20; }
-        .user-info { display: flex; flex-direction: column; text-align: left; }
-        .user-info strong { color: var(--main); font-size: 1rem; }
-        .user-info span { font-size: 0.75rem; color: #666; }
+        /* Animación de entrada */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-        .report-box { background: var(--card); padding: 40px; border-radius: 25px; max-width: 600px; margin: 80px auto; text-align: center; border: 1px solid #222; }
-        input, textarea { width: 100%; background: #050508; border: 1px solid #222; padding: 15px; color: white; border-radius: 12px; margin-bottom: 15px; outline: none; }
-        .btn-send { background: var(--main); color: #000; border: none; padding: 18px; width: 100%; border-radius: 12px; font-weight: 800; cursor: pointer; }
+        .reveal { animation: fadeInUp 0.8s ease forwards; }
 
-        footer { text-align: center; padding: 40px; color: #444; font-size: 0.8rem; }
+        header { 
+            position: fixed; top: 0; width: 100%; 
+            background: rgba(2, 6, 23, 0.9); 
+            backdrop-filter: blur(15px); 
+            border-bottom: 2px solid var(--main); 
+            z-index: 1000; 
+        }
+
+        .nav-container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 15px 25px; }
+        .brand { font-weight: 900; color: var(--main); display: flex; align-items: center; gap: 12px; font-size: 1.4rem; text-decoration: none; text-shadow: 0 0 10px rgba(0,217,255,0.5); }
+        .nav-links { display: flex; gap: 25px; list-style: none; }
+        .nav-links a { color: var(--text); text-decoration: none; font-size: 0.9rem; font-weight: 600; transition: 0.3s; }
+        .nav-links a:hover { color: var(--main); transform: scale(1.1); }
+
+        .hero { padding: 150px 20px 60px; text-align: center; }
+
+        /* Sección Info Restaurada */
+        .info-section { 
+            background: var(--card); 
+            border: 1px solid rgba(0, 217, 255, 0.2); 
+            padding: 40px; 
+            border-radius: 30px; 
+            max-width: 900px; 
+            margin: 0 auto 50px; 
+            text-align: left;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+
+        /* Bot Core */
+        .bot-card { 
+            background: rgba(255, 255, 255, 0.03); 
+            border: 2px solid #1e293b; 
+            padding: 40px; 
+            border-radius: 35px; 
+            text-align: center; 
+            width: 320px; margin: 0 auto 40px;
+            transition: 0.5s;
+        }
+        .bot-card:hover { border-color: var(--main); box-shadow: 0 0 40px rgba(0, 217, 255, 0.2); }
+
+        .pulse-core { width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 2rem; }
+        .glow-green { background: var(--accent); color: #000; box-shadow: 0 0 30px var(--accent); }
+        .glow-red { background: #ff3e3e; color: #fff; box-shadow: 0 0 30px #ff3e3e; }
+
+        /* Cuadrícula */
+        .service-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 20px; max-width: 1100px; margin: 0 auto; }
+        .s-item { 
+            background: var(--card); padding: 25px; border-radius: 25px; 
+            border: 1px solid #1e293b; text-align: center; transition: 0.4s;
+        }
+        .s-item:hover { transform: translateY(-10px); background: rgba(0, 217, 255, 0.05); border-color: var(--main); }
+        .status-dot { width: 15px; height: 15px; border-radius: 50%; margin: 15px auto 0; }
+
+        /* BANEADOS */
+        .list-section { max-width: 1000px; margin: 100px auto; padding: 0 20px; }
+        .report-list { background: var(--card); border-radius: 30px; border: 1px solid #1e293b; overflow: hidden; box-shadow: 0 30px 60px rgba(0,0,0,0.4); }
+        .report-item { 
+            display: flex; align-items: center; padding: 20px 30px; 
+            border-bottom: 1px solid #1e293b; gap: 20px; transition: 0.3s;
+        }
+        .report-item:hover { background: rgba(255, 255, 255, 0.02); }
+        .pfp-img { width: 60px; height: 60px; border-radius: 15px; border: 2px solid var(--main); object-fit: cover; }
+
+        /* Formulario */
+        .report-box { 
+            background: var(--card); padding: 50px; border-radius: 35px; 
+            max-width: 700px; margin: 100px auto; border: 1px solid rgba(0, 217, 255, 0.2); 
+        }
+        input, textarea { 
+            width: 100%; background: #0f172a; border: 2px solid #1e293b; 
+            padding: 18px; color: white; border-radius: 15px; margin-bottom: 20px; outline: none; transition: 0.3s;
+        }
+        input:focus { border-color: var(--main); box-shadow: 0 0 15px rgba(0, 217, 255, 0.2); }
+        .btn-send { 
+            background: var(--main); color: #000; border: none; padding: 20px; 
+            width: 100%; border-radius: 15px; font-weight: 900; cursor: pointer; transition: 0.3s; font-size: 1.1rem;
+        }
+        .btn-send:hover { letter-spacing: 2px; background: var(--accent); }
+
+        footer { text-align: center; padding: 80px 20px; background: rgba(0,0,0,0.3); border-top: 1px solid #1e293b; }
+        footer b { color: var(--main); }
     </style>
 </head>
 <body>
 
     <header>
         <div class="nav-container">
-            <a href="#" class="brand"><img src="logo.webp" style="width:30px"> ANTI-FILTRAS</a>
+            <a href="#" class="brand"><img src="logo.webp" style="width:35px; border-radius: 5px;"> ANTI-FILTRAS</a>
             <ul class="nav-links">
                 <li><a href="#">INICIO</a></li>
-                <li><a href="#reportados">LISTA</a></li>
+                <li><a href="#baneados">BANEADOS</a></li>
                 <li><a href="#reportar">REPORTAR</a></li>
                 <li><a href="https://discord.gg/bNKCgA3zAN" target="_blank">DISCORD</a></li>
             </ul>
         </div>
     </header>
 
-    <section class="hero">
+    <section class="hero reveal">
+        <div class="info-section">
+            <h2 style="color: var(--main); margin-bottom: 15px;"><i class="fas fa-info-circle"></i> ¿Qué es un Filtra?</h2>
+            <p>Un <b class="highlight">Filtra</b> es aquel usuario que roba, distribuye o comercializa recursos de Roblox Studio (scripts, mapas, modelos) sin poseer los derechos legales o la autorización del creador original.</p>
+            <p style="margin-top: 10px;">Nuestro sistema centraliza estos perfiles para que los dueños de juegos puedan <b>denegarles el acceso automáticamente</b> y proteger su trabajo duro.</p>
+        </div>
+
         <div class="bot-status-wrap">
             <div class="bot-card">
                 <div class="pulse-core" id="bot-pulse-div"><i class="fas fa-robot"></i></div>
-                <h3>BOT</h3>
-                <p id="bot-status-text" style="font-size:0.7rem; color:#666;">SINCRONIZANDO...</p>
+                <h2 style="letter-spacing: 3px;">BOT</h2>
+                <p id="bot-status-text" style="color: var(--main); font-weight: bold; margin-top: 10px;">CARGANDO SISTEMA...</p>
             </div>
         </div>
 
@@ -79,25 +156,26 @@
         </div>
     </section>
 
-    <section id="reportados" class="list-section">
-        <h2 style="text-align:center; margin-bottom:30px; color:var(--main)">🛡️ BASE DE DATOS DE FILTRAS</h2>
-        <div class="report-list" id="black-list"></div>
+    <section id="baneados" class="list-section reveal">
+        <h2 style="text-align:center; margin-bottom:40px; font-size: 2.5rem; text-shadow: 0 0 20px var(--main);">🚫 BANEADOS</h2>
+        <div class="report-list" id="black-list">
+            </div>
     </section>
 
-    <section id="reportar">
+    <section id="reportar" class="reveal">
         <div class="report-box">
-            <h2 style="color:var(--main)">ENVIAR REPORTE</h2>
-            <input type="text" id="targetUser" placeholder="Username del Filtra (ej: Lolo_#0001)">
-            <input type="text" id="targetID" placeholder="Discord ID (Numérico)">
-            <input type="text" id="evidenceLink" placeholder="Link de Evidencia">
-            <textarea id="extraNote" rows="3" placeholder="¿Qué filtró?"></textarea>
-            <button class="btn-send" id="btnSendReport">ENVIAR AL STAFF</button>
+            <h2 style="color:var(--main); margin-bottom: 30px; font-size: 2rem;">ENVIAR REPORTE</h2>
+            <input type="text" id="targetUser" placeholder="Username del Filtra (ej: Lolo_)">
+            <input type="text" id="targetID" placeholder="Discord ID del Usuario">
+            <input type="text" id="evidenceLink" placeholder="Link de Evidencia (Imgur, YT, etc)">
+            <textarea id="extraNote" rows="4" placeholder="Describe lo ocurrido..."></textarea>
+            <button class="btn-send" id="btnSendReport">REGISTRAR EN BASE DE DATOS</button>
         </div>
     </section>
 
     <footer>
-        <p>Copyright &copy; 2026 Anti-Filtras Community. Todos los derechos reservados.</p>
-        <p>Creado por <b>Lolo_</b></p>
+        <p>Copyright &copy; 2026 <b>Anti-Filtras Community</b>. Todos los derechos reservados.</p>
+        <p style="margin-top: 15px; opacity: 0.7;">Sistema de seguridad avanzado creado por <b>Lolo_</b></p>
     </footer>
 
     <script type="module">
@@ -108,33 +186,39 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
+        // Sistema de Estados
         onSnapshot(doc(db, "BOT_CONTROL", "settings"), (s) => {
             const d = s.data();
-            const bDiv = document.getElementById('bot-pulse-div');
-            bDiv.className = `pulse-core ${d.botEnabled === 1 ? 'glow-green' : 'glow-red'}`;
-            document.getElementById('bot-status-text').innerText = d.botEnabled === 1 ? "OPERATIVO" : "DESACTIVADO";
+            const pulse = document.getElementById('bot-pulse-div');
+            pulse.className = `pulse-core ${d.botEnabled === 1 ? 'glow-green' : 'glow-red'}`;
+            document.getElementById('bot-status-text').innerText = d.botEnabled === 1 ? "SISTEMA OPERATIVO" : "SISTEMA APAGADO";
 
             const setDot = (id, v) => {
                 const dot = document.getElementById(id);
                 dot.style.background = v === 1 ? '#00ff88' : (v === 2 ? '#ffcc00' : '#ff3e3e');
-                dot.style.boxShadow = `0 0 10px ${dot.style.background}`;
+                dot.style.boxShadow = `0 0 15px ${dot.style.background}`;
             };
             setDot('d-web', d.webEnabled); setDot('d-tix', d.ticketsEnabled); setDot('d-rep', d.webReportsEnabled); setDot('d-cfg', d.configEnabled); setDot('d-ban', d.bansEnabled);
         });
 
+        // Cargar BANEADOS con PFP Real (API de Discord semi-proxy)
         onSnapshot(query(collection(db, "WEB_REPORTS"), orderBy("timestamp", "desc")), (snap) => {
             const list = document.getElementById('black-list');
             list.innerHTML = "";
             snap.forEach(dDoc => {
                 const d = dDoc.data();
-                // Usamos una API de avatares para Discord basada en ID
-                const pfp = `https://api.dicebear.com/7.x/identicon/svg?seed=${d.infractorID}`;
+                // Esta URL usa un servicio que intenta obtener el avatar de discord si existe
+                const pfp = `https://unavatar.io/discord/${d.infractorID}?fallback=https://i.imgur.com/6VB89iR.png`;
+                
                 list.innerHTML += `
                 <div class="report-item">
-                    <img src="${pfp}" class="pfp-img">
-                    <div class="user-info">
-                        <strong>${d.infractorUser || 'Desconocido'}</strong>
-                        <span>ID: ${d.infractorID}</span>
+                    <img src="${pfp}" class="pfp-img" onerror="this.src='https://i.imgur.com/6VB89iR.png'">
+                    <div style="flex-grow:1">
+                        <h4 style="color:var(--main)">${d.infractorUser}</h4>
+                        <p style="font-size:0.8rem; opacity:0.6">ID: ${d.infractorID}</p>
+                    </div>
+                    <div style="text-align:right">
+                        <span style="background:rgba(255,62,62,0.2); color:#ff3e3e; padding:5px 12px; border-radius:20px; font-size:0.7rem; border:1px solid #ff3e3e">BANEADO GLOBAL</span>
                     </div>
                 </div>`;
             });
@@ -144,9 +228,17 @@
             const user = document.getElementById('targetUser').value;
             const id = document.getElementById('targetID').value;
             const ev = document.getElementById('evidenceLink').value;
-            if(!id || !user || !ev) return alert("Completa todos los campos.");
-            await addDoc(collection(db, "WEB_REPORTS"), { infractorUser: user, infractorID: id, evidenciaLink: ev, comentario: document.getElementById('extraNote').value, timestamp: serverTimestamp() });
-            alert("Reporte enviado con éxito.");
+            if(!id || !user || !ev) return alert("Por favor, rellena todos los datos.");
+            
+            await addDoc(collection(db, "WEB_REPORTS"), { 
+                infractorUser: user, 
+                infractorID: id, 
+                evidenciaLink: ev, 
+                comentario: document.getElementById('extraNote').value, 
+                timestamp: serverTimestamp() 
+            });
+            alert("Reporte enviado. El Staff revisará la evidencia.");
+            document.getElementById('targetUser').value = ""; document.getElementById('targetID').value = "";
         };
     </script>
 </body>
