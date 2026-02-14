@@ -3,73 +3,149 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anti-Filtras Community</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Anti-Filtras Community | Oficial</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        #maintenance-overlay { display: none; position: fixed; inset: 0; background: #050505; z-index: 9999; flex-direction: column; justify-content: center; align-items: center; }
-        .bot-core-container { display: flex; justify-content: center; margin: 40px 0; }
-        .bot-item { transform: scale(1.2); padding: 25px; background: rgba(0,255,136,0.03); border-radius: 20px; border: 1px solid #222; text-align: center; width: 200px; }
-        .bot-glow { box-shadow: 0 0 25px rgba(0,255,136,0.3); animation: pulse 2s infinite; }
-        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(0,255,136,0.4); } 70% { box-shadow: 0 0 0 20px rgba(0,255,136,0); } 100% { box-shadow: 0 0 0 0 rgba(0,255,136,0); } }
-        .service-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 15px; max-width: 900px; margin: 0 auto; }
-        .circle-icon { width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; }
-        .green-bg { background: #00ff88; color: #000; } .red-bg { background: #ff3e3e; } .yellow-bg { background: #ffcc00; }
-        .report-container { background: #121217; padding: 30px; border-radius: 15px; border: 1px solid #222; max-width: 600px; margin: 40px auto; text-align: center; }
-        input, textarea { width: 100%; background: #1a1a20; border: 1px solid #333; padding: 12px; color: white; border-radius: 8px; margin-bottom: 15px; outline: none; }
-        .btn-report { background: #00ff88; color: #000; border: none; padding: 15px; width: 100%; border-radius: 8px; font-weight: bold; cursor: pointer; }
+        :root { --main: #00ff88; --bg: #050508; --card: #0d0d12; --text: #e0e0e0; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Outfit', sans-serif; scroll-behavior: smooth; }
+        body { background: var(--bg); color: var(--text); overflow-x: hidden; }
+
+        /* Navegación */
+        header { position: fixed; top: 0; width: 100%; background: rgba(5, 5, 8, 0.8); backdrop-filter: blur(10px); border-bottom: 1px solid #1a1a20; z-index: 1000; }
+        .nav-container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 15px 25px; }
+        .brand { font-weight: 800; letter-spacing: 2px; color: var(--main); display: flex; align-items: center; gap: 10px; }
+        .nav-links { display: flex; gap: 25px; list-style: none; }
+        .nav-links a { color: var(--text); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: 0.3s; }
+        .nav-links a:hover { color: var(--main); }
+
+        /* Hero */
+        .hero { padding: 150px 20px 80px; text-align: center; background: radial-gradient(circle at center, rgba(0,255,136,0.05) 0%, transparent 70%); }
+        .hero h1 { font-size: 3rem; margin-bottom: 20px; letter-spacing: -1px; }
+
+        /* Status Especial */
+        .status-section { padding: 60px 20px; max-width: 1000px; margin: 0 auto; }
+        .bot-status-wrap { display: flex; justify-content: center; margin-bottom: 50px; }
+        .bot-card { background: var(--card); border: 1px solid #222; padding: 30px; border-radius: 24px; text-align: center; width: 280px; position: relative; transition: 0.4s; }
+        .bot-card:hover { border-color: var(--main); transform: translateY(-5px); }
+        
+        .pulse-core { width: 70px; height: 70px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; font-size: 1.8rem; position: relative; }
+        .glow-green { background: var(--main); color: #000; box-shadow: 0 0 30px rgba(0, 255, 136, 0.4); animation: pulse-g 2s infinite; }
+        .glow-yellow { background: #ffcc00; color: #000; animation: pulse-y 2s infinite; }
+        .glow-red { background: #ff3e3e; color: #fff; }
+
+        @keyframes pulse-g { 0% { box-shadow: 0 0 0 0 rgba(0,255,136,0.5); } 70% { box-shadow: 0 0 0 20px rgba(0,255,136,0); } 100% { box-shadow: 0 0 0 0 rgba(0,255,136,0); } }
+
+        .service-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 20px; }
+        .s-item { background: var(--card); padding: 20px; border-radius: 18px; border: 1px solid #1a1a20; text-align: center; }
+        .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 8px; }
+
+        /* Formulario */
+        .report-box { background: var(--card); border: 1px solid #222; padding: 40px; border-radius: 24px; max-width: 600px; margin: 60px auto; }
+        input, textarea { width: 100%; background: #16161c; border: 1px solid #2a2a35; padding: 15px; color: white; border-radius: 12px; margin-bottom: 15px; outline: none; transition: 0.3s; }
+        input:focus { border-color: var(--main); }
+        .btn-send { background: var(--main); color: #000; border: none; padding: 18px; width: 100%; border-radius: 12px; font-weight: 800; cursor: pointer; transition: 0.3s; }
+        .btn-send:hover { transform: scale(1.02); box-shadow: 0 5px 15px rgba(0,255,136,0.2); }
+
+        footer { text-align: center; padding: 40px; border-top: 1px solid #1a1a20; color: #666; font-size: 0.85rem; }
+        #maintenance-overlay { display: none; position: fixed; inset: 0; background: #050508; z-index: 10000; flex-direction: column; justify-content: center; align-items: center; }
     </style>
 </head>
 <body>
-    <div id="maintenance-overlay"><h1>MANTENIMIENTO</h1></div>
-    <div id="main-content">
-        <section class="bot-core-container">
-            <div class="bot-item" id="bot-status-card">
-                <div class="circle-icon gray-bg" id="bot-icon"><i class="fas fa-robot"></i></div>
-                <span style="font-weight: bold; display: block;">BOT CORE</span>
-                <p id="bot-text" style="font-size: 0.8rem;">CONECTANDO...</p>
-            </div>
-        </section>
-        <div class="service-grid">
-            <div class="service-item" id="status-web"><div class="circle-icon gray-bg"><i class="fas fa-globe"></i></div><span>WEB</span><p class="service-desc">...</p></div>
-            <div class="service-item" id="status-tickets"><div class="circle-icon gray-bg"><i class="fas fa-ticket-alt"></i></div><span>TICKETS</span><p class="service-desc">...</p></div>
-            <div class="service-item" id="status-reports"><div class="circle-icon gray-bg"><i class="fas fa-bolt"></i></div><span>REPORTES</span><p class="service-desc">...</p></div>
-            <div class="service-item" id="status-config"><div class="circle-icon gray-bg"><i class="fas fa-gears"></i></div><span>CONFIG</span><p class="service-desc">...</p></div>
-            <div class="service-item" id="status-bans"><div class="circle-icon gray-bg"><i class="fas fa-user-slash"></i></div><span>BANS</span><p class="service-desc">...</p></div>
-        </div>
-        <div class="report-container" id="reportar">
-            <h2 style="color: #00ff88;">REPORTE RÁPIDO</h2>
-            <input type="text" id="targetID" placeholder="ID del Usuario">
-            <input type="text" id="evidenceLink" placeholder="Link de Evidencia">
-            <textarea id="extraNote" placeholder="Descripción..."></textarea>
-            <button class="btn-report" id="btnSendReport">ENVIAR</button>
-        </div>
+
+    <div id="maintenance-overlay">
+        <i class="fas fa-hammer" style="font-size: 4rem; color: #ffcc00; margin-bottom: 20px;"></i>
+        <h1>SISTEMA EN MANTENIMIENTO</h1>
+        <p>Estamos puliendo detalles importantes.</p>
     </div>
+
+    <header>
+        <div class="nav-container">
+            <div class="brand"><i class="fas fa-shield-halved"></i> ANTI-FILTRAS</div>
+            <ul class="nav-links">
+                <li><a href="#">INICIO</a></li>
+                <li><a href="#reportar">REPORTAR</a></li>
+                <li><a href="https://discord.gg/bNKCgA3zAN" target="_blank">DISCORD</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <section class="hero">
+        <h1>Protegiendo el Talento <span style="color:var(--main)">Global</span></h1>
+        <p>Seguridad avanzada para Roblox Studio. Reporta y banea filtras en segundos.</p>
+    </section>
+
+    <section class="status-section">
+        <div class="bot-status-wrap">
+            <div class="bot-card">
+                <div class="pulse-core" id="bot-pulse-div"><i class="fas fa-robot"></i></div>
+                <h3 id="bot-status-title">ESTADO DEL BOT</h3>
+                <p id="bot-status-text" style="font-size: 0.8rem; margin-top: 5px; color: #888;">CONECTANDO...</p>
+            </div>
+        </div>
+
+        <div class="service-grid">
+            <div class="s-item"><p>Web Principal</p><div id="st-web" style="font-size: 0.7rem; margin-top: 10px;">...</div></div>
+            <div class="s-item"><p>Soporte Discord</p><div id="st-tix" style="font-size: 0.7rem; margin-top: 10px;">...</div></div>
+            <div class="s-item"><p>Reportes Web</p><div id="st-rep" style="font-size: 0.7rem; margin-top: 10px;">...</div></div>
+            <div class="s-item"><p>Baneos</p><div id="st-ban" style="font-size: 0.7rem; margin-top: 10px;">...</div></div>
+        </div>
+    </section>
+
+    <section id="reportar">
+        <div class="report-box">
+            <h2 style="margin-bottom: 25px; text-align: center;">Centro de Reportes</h2>
+            <input type="text" id="targetID" placeholder="ID de Discord del Filtra">
+            <input type="text" id="evidenceLink" placeholder="Link de la prueba (Imgur, YT, etc)">
+            <textarea id="extraNote" rows="4" placeholder="¿Qué ocurrió?"></textarea>
+            <button class="btn-send" id="btnSendReport">ENVIAR REPORTE</button>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Anti-Filtras Community. Todos los derechos reservados.</p>
+        <p style="margin-top: 10px;">Creado con ❤️ por <span style="color: var(--main);">Lolo_</span></p>
+    </footer>
+
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getFirestore, doc, onSnapshot, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
         const firebaseConfig = { apiKey: "AIzaSyAEUOzOWdq0xs3qiIlX1RzB6bpKkkMLykA", authDomain: "antifiltras-7116d.firebaseapp.com", projectId: "antifiltras-7116d", appId: "1:795745598666:web:72b77816d3c2a3c17f8833" };
-        const app = initializeApp(firebaseConfig); const db = getFirestore(app);
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
 
         onSnapshot(doc(db, "BOT_CONTROL", "settings"), (s) => {
-            if(!s.exists()) return; const d = s.data();
+            if(!s.exists()) return;
+            const d = s.data();
+
+            // Mantenimiento Global
             document.getElementById('maintenance-overlay').style.display = (d.webEnabled === 0 || d.webEnabled === 2) ? 'flex' : 'none';
-            const botCard = document.getElementById('bot-status-card');
-            const botIcon = document.getElementById('bot-icon');
-            botIcon.className = `circle-icon ${d.botEnabled === 1 ? 'green-bg bot-glow' : (d.botEnabled === 2 ? 'yellow-bg' : 'red-bg')}`;
-            document.getElementById('bot-text').innerText = d.botEnabled === 1 ? 'FUNCIONANDO' : 'MANTENIMIENTO';
-            const sys = { 'status-web': d.webEnabled, 'status-tickets': d.ticketsEnabled, 'status-reports': d.webReportsEnabled, 'status-config': d.configEnabled, 'status-bans': d.bansEnabled };
-            for(const [id,v] of Object.entries(sys)){
-                const el = document.getElementById(id); if(!el) continue;
-                el.querySelector('.circle-icon').className = `circle-icon ${v === 1 ? 'green-bg' : (v === 2 ? 'yellow-bg' : 'red-bg')}`;
-            }
+
+            // Estado del Bot
+            const bDiv = document.getElementById('bot-pulse-div');
+            const bTxt = document.getElementById('bot-status-text');
+            if(d.botEnabled === 1) { bDiv.className = "pulse-core glow-green"; bTxt.innerText = "SISTEMA ACTIVO"; }
+            else if(d.botEnabled === 2) { bDiv.className = "pulse-core glow-yellow"; bTxt.innerText = "EN MANTENIMIENTO"; }
+            else { bDiv.className = "pulse-core glow-red"; bTxt.innerText = "SISTEMA APAGADO"; }
+
+            // Resto de servicios
+            const render = (id, v) => {
+                const el = document.getElementById(id);
+                const color = v === 1 ? '#00ff88' : (v === 2 ? '#ffcc00' : '#ff3e3e');
+                const text = v === 1 ? 'OPERATIVO' : (v === 2 ? 'MANTENIMIENTO' : 'OFF');
+                el.innerHTML = `<span class="dot" style="background:${color}"></span>${text}`;
+            };
+            render('st-web', d.webEnabled); render('st-tix', d.ticketsEnabled);
+            render('st-rep', d.webReportsEnabled); render('st-ban', d.bansEnabled);
         });
 
         document.getElementById('btnSendReport').onclick = async () => {
-            const id = document.getElementById('targetID').value; const ev = document.getElementById('evidenceLink').value;
-            if(!id || !ev) return alert("Faltan datos");
+            const id = document.getElementById('targetID').value;
+            const ev = document.getElementById('evidenceLink').value;
+            if(!id || !ev) return alert("Completa los campos.");
             await addDoc(collection(db, "WEB_REPORTS"), { infractorID: id, evidenciaLink: ev, comentario: document.getElementById('extraNote').value, timestamp: serverTimestamp() });
-            alert("✅ Reporte enviado");
+            alert("Reporte enviado con éxito al Staff.");
+            document.getElementById('targetID').value = ""; document.getElementById('evidenceLink').value = ""; document.getElementById('extraNote').value = "";
         };
     </script>
 </body>
