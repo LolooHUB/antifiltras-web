@@ -7,66 +7,67 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        #maintenance-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #050505; z-index: 9999; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 20px; }
-        #maintenance-overlay i { font-size: 5rem; color: #ffcc00; margin-bottom: 20px; }
-        /* Estilos Formulario */
-        .report-section { padding: 60px 20px; max-width: 800px; margin: 0 auto; text-align: center; }
-        .report-container { background: #121217; padding: 30px; border-radius: 15px; border: 1px solid #222; margin-top: 20px; }
-        .report-container input, .report-container textarea { width: 100%; background: #1a1a20; border: 1px solid #333; padding: 12px; color: white; border-radius: 8px; margin-bottom: 15px; box-sizing: border-box; outline: none; }
-        .report-container input:focus { border-color: #00ff88; }
-        .btn-report { background: #00ff88; color: black; border: none; padding: 15px 30px; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%; transition: 0.3s; }
+        #maintenance-overlay { display: none; position: fixed; inset: 0; background: #050505; z-index: 9999; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+        .info-card { background: #121217; border: 1px solid #222; padding: 25px; border-radius: 15px; margin: 20px auto; max-width: 800px; line-height: 1.6; }
+        .service-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-top: 20px; }
+        .report-container { background: #121217; padding: 30px; border-radius: 15px; border: 1px solid #222; max-width: 600px; margin: 40px auto; }
+        input, textarea { width: 100%; background: #1a1a20; border: 1px solid #333; padding: 12px; color: white; border-radius: 8px; margin-bottom: 15px; box-sizing: border-box; outline: none; }
+        .btn-report { background: #00ff88; color: black; border: none; padding: 15px; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%; transition: 0.3s; }
         .btn-report:disabled { background: #333; color: #666; cursor: not-allowed; }
+        .highlight { color: #00ff88; font-weight: bold; }
     </style>
 </head>
 <body>
 
     <div id="maintenance-overlay">
-        <i class="fas fa-tools"></i>
-        <h1 id="maint-title">SISTEMA EN MANTENIMIENTO</h1>
-        <p id="maint-desc">Estamos realizando mejoras técnicas. Volveremos pronto.</p>
-        <a href="https://discord.gg/bNKCgA3zAN" class="btn-main" style="margin-top:30px;">IR AL DISCORD</a>
+        <i class="fas fa-tools" style="font-size: 4rem; color: #ffcc00; margin-bottom: 20px;"></i>
+        <h1 id="maint-title">MANTENIMIENTO</h1>
+        <p id="maint-desc">Mejorando la seguridad global.</p>
     </div>
 
     <div id="main-content">
         <header class="main-header">
             <div class="header-container">
-                <div class="brand">
-                    <img src="logo.webp" alt="Logo" class="nav-logo">
-                    <span class="brand-name">ANTI-FILTRAS</span>
-                </div>
+                <div class="brand"><img src="logo.webp" alt="Logo" class="nav-logo"><span>ANTI-FILTRAS</span></div>
                 <nav class="main-nav">
-                    <ul>
-                        <li><a href="#" class="active">INICIO</a></li>
-                        <li><a href="#reportar">REPORTAR</a></li>
-                        <li><a href="https://discord.gg/bNKCgA3zAN" target="_blank">DISCORD</a></li>
-                    </ul>
+                    <ul><li><a href="#" class="active">INICIO</a></li><li><a href="#reportar">REPORTAR</a></li><li><a href="https://discord.gg/bNKCgA3zAN" target="_blank">DISCORD</a></li></ul>
                 </nav>
             </div>
         </header>
 
-        <main id="estado">
-            <section class="service-status-section">
-                <h2 class="section-title">ESTADO DE LOS SISTEMAS</h2>
-                <div class="service-grid">
-                    <div class="service-item" id="status-web"><div class="circle-icon gray-bg"><i class="fas fa-globe"></i></div><span class="service-label">Página Web</span><p class="service-desc">CONECTANDO...</p></div>
-                    <div class="service-item" id="status-tickets"><div class="circle-icon gray-bg"><i class="fas fa-ticket-alt"></i></div><span class="service-label">Tickets</span><p class="service-desc">CONECTANDO...</p></div>
-                    <div class="service-item" id="status-config"><div class="circle-icon gray-bg"><i class="fas fa-gears"></i></div><span class="service-label">Configuración</span><p class="service-desc">CONECTANDO...</p></div>
-                    <div class="service-item" id="status-bans"><div class="circle-icon gray-bg"><i class="fas fa-user-slash"></i></div><span class="service-label">Baneos</span><p class="service-desc">CONECTANDO...</p></div>
-                </div>
-            </section>
+        <section class="hero" style="padding: 100px 20px; text-align: center;">
+            <h2 style="font-size: 2.5rem; letter-spacing: 3px;">ᴀɴᴛɪ-ꜰɪʟᴛʀᴀꜱ ᴄᴏᴍᴍᴜɴɪᴛʏ</h2>
+            <p style="max-width: 700px; margin: 20px auto; color: #ccc;">Intentamos reducir la cantidad de filtras a nivel global mediante tecnología avanzada de monitoreo y baneo automático.</p>
+            <a href="https://discord.com/oauth2/authorize?client_id=1398806163071570090" class="btn-main">AGREGAR BOT GRATIS</a>
+        </section>
 
-            <section class="report-section" id="reportar">
-                <h2 class="section-title">ENVIAR REPORTE RÁPIDO</h2>
-                <p style="color:#888;">Sin tickets. Solo envía la ID y la prueba.</p>
-                <div class="report-container" id="web-report-form">
-                    <input type="text" id="targetID" placeholder="ID del Infractor (Discord ID)">
-                    <input type="text" id="evidenceLink" placeholder="Link de Evidencia (Drive, Mega, Imgur...)">
-                    <textarea id="extraNote" rows="3" placeholder="Descripción breve del suceso..."></textarea>
-                    <button class="btn-report" id="btnSendReport">ENVIAR DENUNCIA</button>
-                    <p id="report-off-msg" style="display:none; color:#ff3e3e; margin-top:10px; font-weight:bold;">SISTEMA DE REPORTES TEMPORALMENTE DESACTIVADO</p>
-                </div>
-            </section>
-        </main>
+        <div class="info-card">
+            <h3>❓ ¿Qué es un <span class="highlight">Filtra</span>?</h3>
+            <p>Es toda persona que se dedica a vender y/o distribuir modelos de <span class="highlight">Roblox Studio</span> creados por terceros sin autorización. Nuestro Bot registra a estos usuarios mediante reportes con evidencia sólida revisada por nuestro Staff.</p>
+        </div>
+
+        <section class="service-status-section" style="max-width: 900px; margin: 0 auto;">
+            <h2 class="section-title">ESTADO DE LOS SISTEMAS</h2>
+            <div class="service-grid">
+                <div class="service-item" id="status-web"><div class="circle-icon gray-bg"><i class="fas fa-globe"></i></div><span>Web</span><p class="service-desc">...</p></div>
+                <div class="service-item" id="status-tickets"><div class="circle-icon gray-bg"><i class="fas fa-ticket-alt"></i></div><span>Tickets</span><p class="service-desc">...</p></div>
+                <div class="service-item" id="status-reports"><div class="circle-icon gray-bg"><i class="fas fa-bolt"></i></div><span>Reportes Web</span><p class="service-desc">...</p></div>
+                <div class="service-item" id="status-config"><div class="circle-icon gray-bg"><i class="fas fa-gears"></i></div><span>Config</span><p class="service-desc">...</p></div>
+                <div class="service-item" id="status-bans"><div class="circle-icon gray-bg"><i class="fas fa-user-slash"></i></div><span>Bans</span><p class="service-desc">...</p></div>
+            </div>
+        </section>
+
+        <section id="reportar" class="report-section">
+            <div class="report-container">
+                <h2 style="color: #00ff88; margin-bottom: 10px;">REPORTE RÁPIDO</h2>
+                <p style="font-size: 0.9rem; color: #888; margin-bottom: 20px;">Envía ID y pruebas para baneo global.</p>
+                <input type="text" id="targetID" placeholder="ID de Discord del Filtra">
+                <input type="text" id="evidenceLink" placeholder="Link de Evidencia (Imagen/Video)">
+                <textarea id="extraNote" rows="3" placeholder="Detalles adicionales..."></textarea>
+                <button class="btn-report" id="btnSendReport">ENVIAR REPORTE</button>
+                <p id="report-off-msg" style="display:none; color:#ff3e3e; margin-top:10px; font-weight: bold;">SISTEMA OFF</p>
+            </div>
+        </section>
     </div>
 
     <script type="module">
@@ -77,71 +78,37 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // --- MONITOR DE SETTINGS ---
-        onSnapshot(doc(db, "BOT_CONTROL", "settings"), (docSnap) => {
-            if (!docSnap.exists()) return;
-            const data = docSnap.data();
-
-            // Bloqueo Web
-            const overlay = document.getElementById('maintenance-overlay');
-            const mainContent = document.getElementById('main-content');
-            if (data.webEnabled === 0 || data.webEnabled === 2) {
-                overlay.style.display = 'flex';
-                mainContent.style.display = 'none';
-                document.getElementById('maint-title').innerText = data.webEnabled === 0 ? "SISTEMA CERRADO" : "SISTEMA EN MANTENIMIENTO";
-            } else {
-                overlay.style.display = 'none';
-                mainContent.style.display = 'block';
-            }
-
-            // Control Formulario Reportes
+        onSnapshot(doc(db, "BOT_CONTROL", "settings"), (snap) => {
+            if (!snap.exists()) return;
+            const d = snap.data();
+            
+            document.getElementById('maintenance-overlay').style.display = (d.webEnabled === 0 || d.webEnabled === 2) ? 'flex' : 'none';
+            document.getElementById('main-content').style.display = (d.webEnabled === 0 || d.webEnabled === 2) ? 'none' : 'block';
+            
             const btn = document.getElementById('btnSendReport');
-            const offMsg = document.getElementById('report-off-msg');
-            if(data.webReportsEnabled === 0) {
-                btn.disabled = true;
-                btn.innerText = "SISTEMA OFF";
-                offMsg.style.display = 'block';
-            } else {
-                btn.disabled = false;
-                btn.innerText = "ENVIAR DENUNCIA";
-                offMsg.style.display = 'none';
-            }
+            btn.disabled = d.webReportsEnabled === 0;
+            document.getElementById('report-off-msg').style.display = d.webReportsEnabled === 0 ? 'block' : 'none';
 
-            // Actualizar Círculos (Igual que tu código anterior)
-            const systems = { 'status-web': data.webEnabled, 'status-tickets': data.ticketsEnabled, 'status-config': data.configEnabled, 'status-bans': data.bansEnabled };
-            for (const [id, val] of Object.entries(systems)) {
+            const sys = { 'status-web': d.webEnabled, 'status-tickets': d.ticketsEnabled, 'status-reports': d.webReportsEnabled, 'status-config': d.configEnabled, 'status-bans': d.bansEnabled };
+            for (const [id, v] of Object.entries(sys)) {
                 const el = document.getElementById(id);
                 if (!el) continue;
-                const circle = el.querySelector('.circle-icon');
-                const desc = el.querySelector('.service-desc');
-                circle.className = `circle-icon ${val === 1 ? 'green-bg' : (val === 2 ? 'yellow-bg' : 'red-bg')}`;
-                desc.innerText = val === 1 ? 'OPERATIVO' : (val === 2 ? 'MANTENIMIENTO' : 'DESACTIVADO');
-                desc.style.color = val === 1 ? '#00ff88' : (val === 2 ? '#ffcc00' : '#ff3e3e');
+                el.querySelector('.circle-icon').className = `circle-icon ${v === 1 ? 'green-bg' : (v === 2 ? 'yellow-bg' : 'red-bg')}`;
+                const txt = el.querySelector('.service-desc');
+                txt.innerText = v === 1 ? 'OPERATIVO' : (v === 2 ? 'MANTENIMIENTO' : 'DESACTIVADO');
+                txt.style.color = v === 1 ? '#00ff88' : (v === 2 ? '#ffcc00' : '#ff3e3e');
             }
         });
 
-        // --- ENVÍO DE REPORTES ---
         document.getElementById('btnSendReport').onclick = async () => {
             const id = document.getElementById('targetID').value;
             const link = document.getElementById('evidenceLink').value;
-            const msg = document.getElementById('extraNote').value;
-
-            if(!id || !link) return alert("Faltan datos obligatorios.");
-
+            if(!id || !link) return alert("Faltan datos.");
             try {
-                await addDoc(collection(db, "WEB_REPORTS"), {
-                    infractorID: id,
-                    evidenciaLink: link,
-                    comentario: msg,
-                    timestamp: serverTimestamp()
-                });
-                alert("✨ Reporte enviado con éxito al Staff.");
-                document.getElementById('targetID').value = "";
-                document.getElementById('evidenceLink').value = "";
-                document.getElementById('extraNote').value = "";
-            } catch(e) {
-                alert("Error al conectar con la base de datos.");
-            }
+                await addDoc(collection(db, "WEB_REPORTS"), { infractorID: id, evidenciaLink: link, comentario: document.getElementById('extraNote').value, timestamp: serverTimestamp() });
+                alert("✅ Reporte enviado con éxito.");
+                document.getElementById('targetID').value = ""; document.getElementById('evidenceLink').value = "";
+            } catch(e) { alert("Error al enviar."); }
         };
     </script>
 </body>
