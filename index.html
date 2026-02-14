@@ -10,58 +10,48 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Outfit', sans-serif; scroll-behavior: smooth; }
         body { background: var(--bg); color: var(--text); }
 
-        /* Navegación con LOGO */
-        header { position: fixed; top: 0; width: 100%; background: rgba(5, 5, 8, 0.85); backdrop-filter: blur(12px); border-bottom: 1px solid #1a1a20; z-index: 1000; }
+        header { position: fixed; top: 0; width: 100%; background: rgba(5, 5, 8, 0.9); backdrop-filter: blur(15px); border-bottom: 1px solid #1a1a20; z-index: 1000; }
         .nav-container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 12px 25px; }
         .brand { font-weight: 800; color: var(--main); display: flex; align-items: center; gap: 12px; font-size: 1.2rem; text-decoration: none; }
-        .nav-logo { width: 35px; height: 35px; border-radius: 8px; object-fit: cover; }
         .nav-links { display: flex; gap: 20px; list-style: none; }
-        .nav-links a { color: var(--text); text-decoration: none; font-size: 0.85rem; font-weight: 600; transition: 0.3s; }
-        .nav-links a:hover { color: var(--main); }
+        .nav-links a { color: var(--text); text-decoration: none; font-size: 0.85rem; font-weight: 600; }
 
-        /* Contenido e Info */
         .hero { padding: 160px 20px 60px; text-align: center; }
-        .info-card { background: var(--card); border: 1px solid #1a1a20; padding: 30px; border-radius: 20px; max-width: 800px; margin: 0 auto 40px; line-height: 1.6; text-align: left; }
-        .highlight { color: var(--main); font-weight: bold; }
-
-        /* Bot Status Core */
+        
+        /* BOT CORE */
         .bot-status-wrap { display: flex; justify-content: center; margin-bottom: 40px; }
-        .bot-card { background: var(--card); border: 1px solid #222; padding: 30px; border-radius: 25px; text-align: center; width: 280px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .bot-card { background: var(--card); border: 1px solid #222; padding: 30px; border-radius: 25px; text-align: center; width: 280px; }
         .pulse-core { width: 65px; height: 65px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; font-size: 1.6rem; }
         .glow-green { background: var(--main); color: #000; box-shadow: 0 0 30px rgba(0, 255, 136, 0.3); animation: pulse-g 2s infinite; }
         .glow-red { background: #ff3e3e; color: #fff; }
         @keyframes pulse-g { 0% { box-shadow: 0 0 0 0 rgba(0,255,136,0.5); } 70% { box-shadow: 0 0 0 20px rgba(0,255,136,0); } 100% { box-shadow: 0 0 0 0 rgba(0,255,136,0); } }
 
-        /* Grid de Servicios COMPLETO con ICONOS */
+        /* CIRCULOS DE COLOR */
         .service-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 15px; max-width: 1100px; margin: 0 auto; }
-        .s-item { background: var(--card); padding: 20px; border-radius: 20px; border: 1px solid #1a1a20; text-align: center; transition: 0.3s; }
-        .s-item i { font-size: 1.4rem; margin-bottom: 12px; color: #444; }
-        .s-item.active i { color: var(--main); }
-        .st-txt { display: block; font-size: 0.7rem; font-weight: bold; margin-top: 5px; }
-
-        /* Lista de Reportados */
+        .s-item { background: var(--card); padding: 20px; border-radius: 20px; border: 1px solid #1a1a20; text-align: center; }
+        .status-dot { width: 12px; height: 12px; border-radius: 50%; margin: 10px auto; display: block; border: 2px solid rgba(0,0,0,0.3); }
+        
+        /* LISTA DE FILTRAS CON PFP */
         .list-section { max-width: 900px; margin: 80px auto; padding: 0 20px; }
-        .report-list { background: var(--card); border-radius: 20px; border: 1px solid #1a1a20; overflow: hidden; }
-        .report-item { display: flex; justify-content: space-between; padding: 15px 25px; border-bottom: 1px solid #1a1a20; font-size: 0.9rem; }
+        .report-list { background: var(--card); border-radius: 20px; border: 1px solid #1a1a20; }
+        .report-item { display: flex; align-items: center; padding: 15px 25px; border-bottom: 1px solid #1a1a20; gap: 15px; }
+        .pfp-img { width: 45px; height: 45px; border-radius: 50%; border: 2px solid var(--main); background: #1a1a20; }
+        .user-info { display: flex; flex-direction: column; text-align: left; }
+        .user-info strong { color: var(--main); font-size: 1rem; }
+        .user-info span { font-size: 0.75rem; color: #666; }
 
-        /* Reporte Rápido */
-        .report-box { background: var(--card); padding: 40px; border-radius: 25px; border: 1px solid #222; max-width: 600px; margin: 80px auto; text-align: center; }
-        input, textarea { width: 100%; background: #050508; border: 1px solid #222; padding: 15px; color: white; border-radius: 12px; margin-bottom: 15px; outline: none; transition: 0.3s; }
-        input:focus { border-color: var(--main); }
-        .btn-send { background: var(--main); color: #000; border: none; padding: 18px; width: 100%; border-radius: 12px; font-weight: 800; cursor: pointer; transition: 0.3s; }
-        .btn-send:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,255,136,0.3); }
+        .report-box { background: var(--card); padding: 40px; border-radius: 25px; max-width: 600px; margin: 80px auto; text-align: center; border: 1px solid #222; }
+        input, textarea { width: 100%; background: #050508; border: 1px solid #222; padding: 15px; color: white; border-radius: 12px; margin-bottom: 15px; outline: none; }
+        .btn-send { background: var(--main); color: #000; border: none; padding: 18px; width: 100%; border-radius: 12px; font-weight: 800; cursor: pointer; }
 
-        footer { text-align: center; padding: 60px; border-top: 1px solid #1a1a20; color: #555; font-size: 0.8rem; }
+        footer { text-align: center; padding: 40px; color: #444; font-size: 0.8rem; }
     </style>
 </head>
 <body>
 
     <header>
         <div class="nav-container">
-            <a href="#" class="brand">
-                <img src="logo.webp" alt="Logo" class="nav-logo"> 
-                <span>ANTI-FILTRAS</span>
-            </a>
+            <a href="#" class="brand"><img src="logo.webp" style="width:30px"> ANTI-FILTRAS</a>
             <ul class="nav-links">
                 <li><a href="#">INICIO</a></li>
                 <li><a href="#reportados">LISTA</a></li>
@@ -72,97 +62,91 @@
     </header>
 
     <section class="hero">
-        <div class="info-card">
-            <h3>❓ ¿Qué es un <span class="highlight">Filtra</span>?</h3>
-            <p>Se define como filtra a todo usuario que distribuye, vende o regala modelos de <span class="highlight">Roblox Studio</span> sin la autorización del autor original. Nuestra comunidad utiliza este bot para centralizar reportes y aplicar baneos automáticos en servidores afiliados.</p>
-        </div>
-
         <div class="bot-status-wrap">
             <div class="bot-card">
-                <div class="pulse-core" id="bot-pulse-div"><i class="fas fa-shield-virus"></i></div>
-                <h3 id="bot-status-title">SISTEMA CENTRAL</h3>
-                <p id="bot-status-text" style="color: #666; font-size: 0.75rem; margin-top: 5px;">VERIFICANDO...</p>
+                <div class="pulse-core" id="bot-pulse-div"><i class="fas fa-robot"></i></div>
+                <h3>BOT</h3>
+                <p id="bot-status-text" style="font-size:0.7rem; color:#666;">SINCRONIZANDO...</p>
             </div>
         </div>
 
         <div class="service-grid">
-            <div class="s-item" id="status-web"><i class="fas fa-globe"></i><p>Web</p><span class="st-txt">...</span></div>
-            <div class="s-item" id="status-tickets"><i class="fas fa-ticket-alt"></i><p>Tickets</p><span class="st-txt">...</span></div>
-            <div class="s-item" id="status-reports"><i class="fas fa-bolt"></i><p>Reportes</p><span class="st-txt">...</span></div>
-            <div class="s-item" id="status-config"><i class="fas fa-gears"></i><p>Config</p><span class="st-txt">...</span></div>
-            <div class="s-item" id="status-bans"><i class="fas fa-user-slash"></i><p>Baneos</p><span class="st-txt">...</span></div>
+            <div class="s-item"><i class="fas fa-globe"></i><p>Web</p><div id="d-web" class="status-dot"></div></div>
+            <div class="s-item"><i class="fas fa-ticket-alt"></i><p>Soporte</p><div id="d-tix" class="status-dot"></div></div>
+            <div class="s-item"><i class="fas fa-bolt"></i><p>Reportes</p><div id="d-rep" class="status-dot"></div></div>
+            <div class="s-item"><i class="fas fa-gears"></i><p>Config</p><div id="d-cfg" class="status-dot"></div></div>
+            <div class="s-item"><i class="fas fa-user-slash"></i><p>Baneos</p><div id="d-ban" class="status-dot"></div></div>
         </div>
     </section>
 
     <section id="reportados" class="list-section">
-        <h2 style="margin-bottom: 25px; text-align: center; color: var(--main);">🛡️ FILTRAS REGISTRADOS</h2>
-        <div class="report-list" id="black-list">
-            <div class="report-item">Sincronizando base de datos...</div>
-        </div>
+        <h2 style="text-align:center; margin-bottom:30px; color:var(--main)">🛡️ BASE DE DATOS DE FILTRAS</h2>
+        <div class="report-list" id="black-list"></div>
     </section>
 
     <section id="reportar">
         <div class="report-box">
-            <h2 style="color: var(--main); margin-bottom: 10px;">REPORTE RÁPIDO</h2>
-            <input type="text" id="targetID" placeholder="ID de Discord del Filtra">
+            <h2 style="color:var(--main)">ENVIAR REPORTE</h2>
+            <input type="text" id="targetUser" placeholder="Username del Filtra (ej: Lolo_#0001)">
+            <input type="text" id="targetID" placeholder="Discord ID (Numérico)">
             <input type="text" id="evidenceLink" placeholder="Link de Evidencia">
-            <textarea id="extraNote" rows="3" placeholder="Detalles adicionales..."></textarea>
+            <textarea id="extraNote" rows="3" placeholder="¿Qué filtró?"></textarea>
             <button class="btn-send" id="btnSendReport">ENVIAR AL STAFF</button>
         </div>
     </section>
 
     <footer>
-        <p>&copy; 2026 Anti-Filtras Community. Todos los derechos reservados.</p>
-        <p style="margin-top: 10px;">Creado por <span style="color: var(--main);">Lolo_</span></p>
+        <p>Copyright &copy; 2026 Anti-Filtras Community. Todos los derechos reservados.</p>
+        <p>Creado por <b>Lolo_</b></p>
     </footer>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getFirestore, doc, onSnapshot, collection, query, limit, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getFirestore, doc, onSnapshot, collection, addDoc, serverTimestamp, query, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
         const firebaseConfig = { apiKey: "AIzaSyAEUOzOWdq0xs3qiIlX1RzB6bpKkkMLykA", authDomain: "antifiltras-7116d.firebaseapp.com", projectId: "antifiltras-7116d", appId: "1:795745598666:web:72b77816d3c2a3c17f8833" };
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
         onSnapshot(doc(db, "BOT_CONTROL", "settings"), (s) => {
-            if(!s.exists()) return;
             const d = s.data();
-            
-            const pulse = document.getElementById('bot-pulse-div');
-            const bTxt = document.getElementById('bot-status-text');
-            pulse.className = `pulse-core ${d.botEnabled === 1 ? 'glow-green' : 'glow-red'}`;
-            bTxt.innerText = d.botEnabled === 1 ? 'ESTADO: OPERATIVO' : 'ESTADO: DESACTIVADO';
+            const bDiv = document.getElementById('bot-pulse-div');
+            bDiv.className = `pulse-core ${d.botEnabled === 1 ? 'glow-green' : 'glow-red'}`;
+            document.getElementById('bot-status-text').innerText = d.botEnabled === 1 ? "OPERATIVO" : "DESACTIVADO";
 
-            const update = (id, v) => {
-                const el = document.getElementById(id);
-                el.className = `s-item ${v === 1 ? 'active' : ''}`;
-                const txt = el.querySelector('.st-txt');
-                txt.innerText = v === 1 ? 'ONLINE' : (v === 2 ? 'MAINT' : 'OFF');
-                txt.style.color = v === 1 ? '#00ff88' : (v === 2 ? '#ffcc00' : '#ff3e3e');
+            const setDot = (id, v) => {
+                const dot = document.getElementById(id);
+                dot.style.background = v === 1 ? '#00ff88' : (v === 2 ? '#ffcc00' : '#ff3e3e');
+                dot.style.boxShadow = `0 0 10px ${dot.style.background}`;
             };
-
-            update('status-web', d.webEnabled);
-            update('status-tickets', d.ticketsEnabled);
-            update('status-reports', d.webReportsEnabled);
-            update('status-config', d.configEnabled);
-            update('status-bans', d.bansEnabled);
+            setDot('d-web', d.webEnabled); setDot('d-tix', d.ticketsEnabled); setDot('d-rep', d.webReportsEnabled); setDot('d-cfg', d.configEnabled); setDot('d-ban', d.bansEnabled);
         });
 
-        onSnapshot(query(collection(db, "WEB_REPORTS"), limit(10)), (snap) => {
+        onSnapshot(query(collection(db, "WEB_REPORTS"), orderBy("timestamp", "desc")), (snap) => {
             const list = document.getElementById('black-list');
             list.innerHTML = "";
-            snap.forEach(doc => {
-                const d = doc.data();
-                list.innerHTML += `<div class="report-item"><span>👤 ID: <strong>${d.infractorID}</strong></span><span style="color:var(--main)">REGISTRADO</span></div>`;
+            snap.forEach(dDoc => {
+                const d = dDoc.data();
+                // Usamos una API de avatares para Discord basada en ID
+                const pfp = `https://api.dicebear.com/7.x/identicon/svg?seed=${d.infractorID}`;
+                list.innerHTML += `
+                <div class="report-item">
+                    <img src="${pfp}" class="pfp-img">
+                    <div class="user-info">
+                        <strong>${d.infractorUser || 'Desconocido'}</strong>
+                        <span>ID: ${d.infractorID}</span>
+                    </div>
+                </div>`;
             });
         });
 
         document.getElementById('btnSendReport').onclick = async () => {
+            const user = document.getElementById('targetUser').value;
             const id = document.getElementById('targetID').value;
             const ev = document.getElementById('evidenceLink').value;
-            if(!id || !ev) return alert("Faltan datos.");
-            await addDoc(collection(db, "WEB_REPORTS"), { infractorID: id, evidenciaLink: ev, comentario: document.getElementById('extraNote').value, timestamp: serverTimestamp() });
-            alert("Reporte enviado.");
+            if(!id || !user || !ev) return alert("Completa todos los campos.");
+            await addDoc(collection(db, "WEB_REPORTS"), { infractorUser: user, infractorID: id, evidenciaLink: ev, comentario: document.getElementById('extraNote').value, timestamp: serverTimestamp() });
+            alert("Reporte enviado con éxito.");
         };
     </script>
 </body>
