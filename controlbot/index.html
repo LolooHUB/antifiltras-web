@@ -2,36 +2,30 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Anti-Filtras Admin</title>
+    <title>Staff Control | Anti-Filtras</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        :root { --bg: #050505; --card: #111115; --acc: #00ff88; --txt: #fff; }
-        body { background: var(--bg); color: var(--txt); font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; padding: 40px; }
-        .container { width: 100%; max-width: 600px; }
-        .card { background: var(--card); border: 1px solid #222; border-radius: 15px; padding: 20px; margin-bottom: 20px; }
-        .row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #1a1a1a; }
-        .btn-status { border: none; padding: 8px 15px; border-radius: 6px; font-weight: bold; cursor: pointer; min-width: 120px; transition: 0.2s; }
-        .s-1 { background: rgba(0,255,136,0.1); color: var(--acc); border: 1px solid var(--acc); }
-        .s-2 { background: rgba(255,204,0,0.1); color: #ffcc00; border: 1px solid #ffcc00; }
-        .s-0 { background: rgba(255,62,62,0.1); color: #ff3e3e; border: 1px solid #ff3e3e; }
-        .extra-btn { background: #222; color: #fff; border: 1px solid #333; padding: 10px; border-radius: 8px; width: 100%; margin-top: 10px; cursor: pointer; }
+        body { background: #050505; color: #fff; font-family: sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .panel { background: #0d0d12; border: 1px solid #222; padding: 40px; border-radius: 30px; width: 100%; max-width: 500px; }
+        .row { display: flex; justify-content: space-between; align-items: center; background: #15151c; padding: 15px 20px; border-radius: 15px; margin-bottom: 12px; border: 1px solid #222; }
+        .btn { border: none; padding: 10px 20px; border-radius: 10px; font-weight: bold; cursor: pointer; min-width: 130px; transition: 0.3s; }
+        .s-1 { background: rgba(0, 255, 136, 0.1); color: #00ff88; border: 1px solid #00ff88; }
+        .s-2 { background: rgba(255, 204, 0, 0.1); color: #ffcc00; border: 1px solid #ffcc00; }
+        .s-0 { background: rgba(255, 62, 62, 0.1); color: #ff3e3e; border: 1px solid #ff3e3e; }
+        input { background: #15151c; border: 1px solid #333; color: #fff; padding: 15px; border-radius: 12px; width: 100%; margin-bottom: 20px; text-align: center; }
     </style>
 </head>
 <body>
-    <div class="container" id="main-panel" style="display:none">
-        <h2 style="color: var(--acc); text-align: center;">🛡️ SYSTEM CONTROL</h2>
-        <div class="card" id="btn-container"></div>
-        <div class="card">
-            <h3 style="margin-top:0">🛠️ ACCIONES RÁPIDAS</h3>
-            <button class="extra-btn" onclick="alert('Limpiando caché...')">🧹 Limpiar Caché Web</button>
-            <button class="extra-btn" onclick="alert('Cerrando todos los tickets...')">🔒 Forzar Cierre Soporte</button>
-            <button class="extra-btn" style="border-color: #ff3e3e; color: #ff3e3e" onclick="location.reload()">🔄 Reiniciar Panel</button>
-        </div>
+    <div id="login" style="text-align:center">
+        <h2>STAFF PORTAL</h2>
+        <input type="password" id="pass" placeholder="Password">
+        <button onclick="auth()" class="btn s-1">ACCEDER</button>
     </div>
-    <div id="login" class="card" style="text-align: center; margin-top: 100px;">
-        <h3>STAFF ACCESS</h3>
-        <input type="password" id="pw" style="background:#000; color:#fff; border:1px solid #333; padding:10px; width:80%; margin-bottom:15px">
-        <button onclick="auth()" style="background:var(--acc); border:none; padding:10px 20px; border-radius:5px; cursor:pointer">ENTRAR</button>
+
+    <div id="ctrl" class="panel" style="display:none">
+        <h2 style="color:#00ff88; text-align:center; margin-bottom:30px">MASTER CONTROL</h2>
+        <div id="container"></div>
+        <p style="text-align:center; color:#444; font-size:0.7rem; margin-top:20px">Desarrollado por Lolo_</p>
     </div>
 
     <script type="module">
@@ -40,20 +34,20 @@
         const firebaseConfig = { apiKey: "AIzaSyAEUOzOWdq0xs3qiIlX1RzB6bpKkkMLykA", authDomain: "antifiltras-7116d.firebaseapp.com", projectId: "antifiltras-7116d", appId: "1:795745598666:web:72b77816d3c2a3c17f8833" };
         const app = initializeApp(firebaseConfig); const db = getFirestore(app);
 
-        window.auth = () => { if(document.getElementById('pw').value === 'Antifiltras2026'){ document.getElementById('login').style.display='none'; document.getElementById('main-panel').style.display='block'; } };
+        window.auth = () => { if(document.getElementById('pass').value === 'Antifiltras2026') { document.getElementById('login').style.display='none'; document.getElementById('ctrl').style.display='block'; } };
 
         onSnapshot(doc(db, "BOT_CONTROL", "settings"), (s) => {
             const d = s.data();
-            document.getElementById('btn-container').innerHTML = `
-                ${render('🤖 BOT CORE', 'botEnabled', d.botEnabled)}
-                ${render('🌐 WEB PRINCIPAL', 'webEnabled', d.webEnabled)}
-                ${render('📩 TICKETS DISCORD', 'ticketsEnabled', d.ticketsEnabled)}
-                ${render('📡 REPORTES WEB', 'webReportsEnabled', d.webReportsEnabled)}
-                ${render('🚫 BANS GLOBALES', 'bansEnabled', d.bansEnabled)}
+            document.getElementById('container').innerHTML = `
+                ${btn('🤖 ESTADO DEL BOT', 'botEnabled', d.botEnabled)}
+                ${btn('🌐 WEB PRINCIPAL', 'webEnabled', d.webEnabled)}
+                ${btn('📩 SOPORTE DISCORD', 'ticketsEnabled', d.ticketsEnabled)}
+                ${btn('📡 REPORTES WEB', 'webReportsEnabled', d.webReportsEnabled)}
+                ${btn('🚫 BANS GLOBALES', 'bansEnabled', d.bansEnabled)}
             `;
         });
-        window.tog = async (f,v) => { await updateDoc(doc(db, "BOT_CONTROL", "settings"), { [f]: v === 1 ? 2 : (v === 2 ? 0 : 1) }); };
-        function render(l,f,v){ return `<div class="row"><span>${l}</span><button class="btn-status s-${v}" onclick="tog('${f}',${v})">${v===1?'OPERATIVO':v===2?'MANTENIMIENTO':'OFF'}</button></div>`; }
+        window.toggle = async (f,v) => { await updateDoc(doc(db, "BOT_CONTROL", "settings"), { [f]: v === 1 ? 2 : (v === 2 ? 0 : 1) }); };
+        function btn(l,f,v){ return `<div class="row"><span>${l}</span><button class="btn s-${v}" onclick="toggle('${f}',${v})">${v===1?'OPERATIVO':v===2?'MANTENIMIENTO':'OFF'}</button></div>`; }
     </script>
 </body>
 </html>
